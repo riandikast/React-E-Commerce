@@ -17,7 +17,7 @@ function CardProduct() {
             {product?.map((item, index) => (
                 <div key={index} className="p-3 bg-white rounded-md">
                     <Link to={`/detail/${item.id}`}>
-                        <img src={item.image} alt="img" className="h-36 object-contain mb-5 mx-auto" />
+                        <img src={item.image} alt="img" className="h-36 object-contain mb-5 mx-auto w-24" />
                         <div className="text-left">
                             <p className="text-darkgreen font-bold text-sm line-clamp-1">{item.title}</p>
                             <p className="text-green text-xs">{item.category}</p>

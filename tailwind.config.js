@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'playfair': 'Playfair Display'
+        'playfair': 'Playfair Display',
+        'jost': 'Jost'
       },
       backgroundColor: {
         'dark-plain': '#E5E5E5',
