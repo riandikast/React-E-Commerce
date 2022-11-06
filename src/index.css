@@ -51,9 +51,7 @@ p {
   opacity: 1;
 }
 
-.text {
-  background-color: #04AA6D;
-  color: white;
-  font-size: 16px;
-  padding: 16px 32px;
+button {
+  font-family: 'Jost';
+  font-weight: 600;
 }
