@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { emailUSer, loginUser} from "../../store/login/LoginSlice";
+import { emailUser, loginUser} from "../../store/login/LoginSlice";
 
 function Login() {
     const navigate = useNavigate()
@@ -28,8 +28,8 @@ function Login() {
                 <h3 className="text-darkgreen text-2xl font-semibold">Login</h3>
                 <form className="w-full" onSubmit={handleLogin}>
                     <div className="flex flex-col text-left my-5">
-                        <label htmlFor="email" className="mb-3">email</label>
-                        <input type="email" name="email" className="p-2 w-full rounded-lg" placeholder="johnd" onChange={(e) => dispatch(emailUSer(e.target.value))}></input>
+                        <label htmlFor="email" className="mb-3">Email</label>
+                        <input type="email" name="email" className="p-2 w-full rounded-lg" placeholder="John@gmail.com" onChange={(e) => dispatch(emailUser(e.target.value))}></input>
                     </div>
                     <div className="flex flex-col text-left">
                         <label htmlFor="password" className="mb-3">Password</label>
