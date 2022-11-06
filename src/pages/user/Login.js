@@ -21,7 +21,7 @@ function Login() {
     return (
         <div className="grid grid-cols-2 bg-dark-plain">
             <div className="h-[90vh] flex items-center justify-around relative w-[80%] mx-auto">
-                <img src="/banner2.svg" alt="banner" className="h-5/6" />
+                <img src="/banner.svg" alt="banner" className="h-5/6" />
 
             </div>
             <div className="h-[90vh] w-[80%] mx-auto flex flex-col justify-center items-center">
