@@ -20,7 +20,7 @@ export const loginUser = createAsyncThunk("login/user", async (authInput)=> {
 });
 
 const initialState = {
-    isLogin: false,
+    isLogin: localStorage.getItem("token")? true : false,
     email: "John@gmail.com",
     username: null,
     token: localStorage.getItem("token"),
@@ -33,16 +33,20 @@ const loginSlice = createSlice({
     name: "login",
     initialState,
     reducers: {
-        emailUSer: (state, action) => {
+        emailUser: (state, action) => {
             if (state.email === action.payload) {
                 state.username = "johnd";
                 state.role = "user";
                 localStorage.setItem("email", (state.email))
-                console.log(action.payload)
             } else {
                 state.role="admin";
             }
         },
+        logoutUser: (state) => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("email");
+            state.isLogin = false;
+        }
     },
     extraReducers: {
         [loginUser.pending]: (state) => {
@@ -52,9 +56,7 @@ const loginSlice = createSlice({
         },
         [loginUser.fulfilled]: (state, action) => {
             state.loading = false; 
-            if (localStorage.getItem("token") !== null) {
-                state.isLogin = true;
-            }
+            state.isLogin = true;
             state.role = "user";
             state.isError = null;
         },
@@ -66,6 +68,6 @@ const loginSlice = createSlice({
     }
 })
 
-export const { emailUSer } = loginSlice.actions;
+export const { emailUser, logoutUser } = loginSlice.actions;
 export const loginSelector = state => state.login
 export default loginSlice.reducer;
