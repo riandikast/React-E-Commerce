@@ -1,35 +1,51 @@
-import { useEffect } from "react";
+import { useEffect, useState, React, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   getDetailProduct,
   productSelector,
 } from "../../store/products/ProductSlice";
-
+import { addProduct, checkData } from "../../store/products/CartSlice";
 import { useNavigate } from "react-router-dom";
 
 function Detail() {
+  const [refresh, setRefresh] = useState("");
   const token = localStorage.getItem("token");
   const { id } = useParams();
   const { product } = useSelector(productSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const handleSave = (product) => {
+    let cart = {
+      image: product.image,
+      title: product.title,
+      price: product.price,
+      desc: product.description,
+      quantity: 1,
+    };
+    dispatch(checkData(cart));
+    dispatch(addProduct(cart));
+    setRefresh("Refresh");
+  };
 
   useEffect(() => {
     dispatch(getDetailProduct({ id }));
   }, []);
 
-  const handleCart= (e)=> {
-    e.preventDefault();
-  
-    if (token === null){
-        return navigate('/login')
-    }else{
+  useEffect(() => {
+    setRefresh('buat refresh ');
+  }, [refresh]);
 
+  const handleCart = (product) => {
+    if (token === null) {
+      return navigate("/login");
+    } else {
+      return handleSave(product);
     }
-  }
+  };
   console.log(product);
   return (
+ 
     <div className="w-4/6 mx-auto mt-20">
       <div className="px-3 py-5 rounded-md bg-white flex justify-center">
         <img src={product?.image} alt="img" className="w-48 mr-20" />
@@ -41,7 +57,10 @@ function Detail() {
             ${product?.price}
           </p>
           <p>{product?.description}</p>
-          <button onClick={handleCart} className="w-full p-2 bg-green text-white font-semibold font-jost my-5 flex justify-center items-center rounded-md">
+          <button
+            onClick={() => handleCart(product)}
+            className="w-full p-2 bg-green text-white font-semibold font-jost my-5 flex justify-center items-center rounded-md"
+          >
             Add to cart
             <svg
               xmlns="http://www.w3.org/2000/svg"
