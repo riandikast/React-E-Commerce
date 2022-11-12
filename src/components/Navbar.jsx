@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/login/LoginSlice";
@@ -13,6 +13,7 @@ function Navbar() {
   const [isAdmin, setIsAdmin] = useState(false);
   const { isLogin } = useSelector((state) => state.login);
   const adminCheck = JSON.parse(localStorage.getItem("admin"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPath(location.pathname);
@@ -37,6 +38,8 @@ function Navbar() {
         dispatch(logoutUser());
         setIsAdmin(false);
         setRefresh("Refresh");
+        navigate("/")
+        
       }
     });
   };
