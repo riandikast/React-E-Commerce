@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import axios from 'axios';
 import Swal from "sweetalert2";
+
 export const loginUser = createAsyncThunk("login/user", async (authInput) => {
   try {
     return await fetch(`https://fakestoreapi.com/auth/login`, {
@@ -18,6 +19,7 @@ export const loginUser = createAsyncThunk("login/user", async (authInput) => {
     throw error;
   }
 });
+
 let defaultAdmin = {
   email: "admin@bukapedia.com",
   password: "admin123",
@@ -76,7 +78,7 @@ const loginSlice = createSlice({
           Swal.fire({
             icon: "success",
             title: "Success",
-            text: "Anda Berhasil Login",
+            text: "Successfully logged in",
           });
           throw BreakException;
         } else if (
@@ -86,13 +88,13 @@ const loginSlice = createSlice({
           Swal.fire({
             icon: "success",
             title: "Success",
-            text: "Anda Berhasil Login",
+            text: "Successfully logged in",
           });
         } else {
           Swal.fire({
             icon: "error",
             title: "Failed",
-            text: "Email atau Password Salah",
+            text: "Email or Password are wrong",
           });
         }
       });
