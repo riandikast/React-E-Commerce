@@ -32,7 +32,7 @@ export const getCategory = createAsyncThunk("product/category", async ({category
 });
 
 const initialState = {
-    product: null,
+    product: [],
     loading: false,
     isError: null,
 }
@@ -46,49 +46,40 @@ const productSlice = createSlice({
         
         [getAllProduct.pending]: (state) => {
             state.loading = true;
-            state.product = null;
-            state.isError = null;
         },
-        [getAllProduct.fulfilled]: (state, {payload}) => {
+        [getAllProduct.fulfilled]: (state, action) => {
             state.loading = false;
-            state.product = payload;
-            state.isError = null;
+            state.product = action.payload;
+            console.log(action.payload)
         },
         [getAllProduct.rejected]: (state) => {
-            state.loading = false;
-            state.product = null;
             state.isError = true;
         },
         [getDetailProduct.pending]: (state) => {
             state.loading = true;
-            state.product = null;
-            state.isError = null;
         },
-        [getDetailProduct.fulfilled]: (state, {payload}) => {
+        [getDetailProduct.fulfilled]: (state, action) => {
             state.loading = false;
-            state.product = payload;
-            state.isError = null;
+            state.product = action.payload;
         },
         [getDetailProduct.rejected]: (state) => {
-            state.loading = false;
-            state.product = null;
             state.isError = true;
         },
-        [getCategory.pending]: (state) => {
-            state.loading = true;
-            state.product = null;
-            state.isError = null;
-        },
-        [getCategory.fulfilled]: (state, {payload}) => {
-            state.loading = false;
-            state.product = payload;
-            state.isError = null;
-        },
-        [getCategory.rejected]: (state) => {
-            state.loading = false;
-            state.product = null;
-            state.isError = true;
-        },
+        // [getCategory.pending]: (state) => {
+        //     state.loading = true;
+        //     state.product = null;
+        //     state.isError = null;
+        // },
+        // [getCategory.fulfilled]: (state, {payload}) => {
+        //     state.loading = false;
+        //     state.product = payload;
+        //     state.isError = null;
+        // },
+        // [getCategory.rejected]: (state) => {
+        //     state.loading = false;
+        //     state.product = null;
+        //     state.isError = true;
+        // },
     }
 })
 

@@ -35,9 +35,27 @@ function Login() {
                         <label htmlFor="password" className="mb-3">Password</label>
                         <input type="password" name="password" className="p-2 w-full rounded-lg" placeholder="m38rmF$" onChange={(e) => setPasswordInput(e.target.value)}></input>
                     </div>
-                    <button 
-                        className="bg-green py-2 text-white font-medium rounded-md w-full mt-8"
-                        type="submit" onClick={handleLogin}>Login</button>
+                    {loading ? (
+                        <button 
+                            className="bg-green py-2 text-white font-semibold rounded-md w-full mt-8 hover:opacity-70"
+                            type="submit" 
+                            onClick={handleLogin} disabled
+                        >
+                        <svg class="animate-spin h-3 w-3 mr-2" viewBox="0 0 24 24">
+                            <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                fill="black" className="opacity-75" />
+                        </svg>
+                        Loading
+                      </button>
+                    ) : (
+                        <button 
+                            className="bg-green py-2 text-white font-semibold rounded-md w-full mt-8 hover:opacity-70"
+                            type="submit" 
+                            onClick={handleLogin}
+                        >
+                            Login
+                        </button>
+                    )}
                 </form>
             </div>
         </div>
