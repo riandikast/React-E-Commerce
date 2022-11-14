@@ -13,6 +13,7 @@
 
 body {
   background-color: #e5e9e6;
+  scroll-behavior: smooth;
 }
 
 p {

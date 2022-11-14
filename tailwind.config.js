@@ -10,7 +10,7 @@ module.exports = {
       backgroundColor: {
         'dark-plain': '#E5E5E5',
         'plain': '#FDFBF8',
-        'nude': '#FFF4E7',
+        'lightgreen': '#e5e9e6',
       },
       colors: {
         'darkgreen': '#07484A',

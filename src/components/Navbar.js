@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/login/LoginSlice";
 import Swal from "sweetalert2";
+import { Link as ScrollLink } from "react-scroll";
+
 function Navbar() {
   const [refresh, setRefresh] = useState("");
   const location = useLocation();
@@ -74,26 +76,14 @@ function Navbar() {
               Home
             </NavLink>
 
-            <NavLink
-              to={"/products"}
-              className={
-                path === "/products"
-                  ? "text-xs md:text-base mr-3 border-b-2 border-black  "
-                  : "text-xs md:text-base mr-3"
-              }
+            <ScrollLink
+              to="products"
+              smooth={true}
+              spy={true}
+              className="text-xs md:text-base mr-3"
             >
               Products
-            </NavLink>
-            <NavLink
-              to={"/categories"}
-              className={
-                path === "/categories"
-                  ? "text-xs md:text-base mr-3 border-b-2 border-black "
-                  : "text-xs md:text-base mr-3 whitespace-nowrap"
-              }
-            >
-              Categories
-            </NavLink>
+            </ScrollLink>
           </div>
         ) : (
           <div className="flex">

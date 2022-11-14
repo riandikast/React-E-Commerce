@@ -85,11 +85,11 @@ const loginSlice = createSlice({
           state.email === action.payload.emailInput &&
           "m38rmF$" === action.payload.passwordInput
         ) {
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "Successfully logged in",
-          });
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Successfully logged in",
+            });
         } else {
           Swal.fire({
             icon: "error",
@@ -104,13 +104,13 @@ const loginSlice = createSlice({
     [loginUser.pending]: (state) => {
       state.loading = true;
       state.isLogin = false;
-      state.isError = null;
+      state.isError = false;
     },
     [loginUser.fulfilled]: (state, action) => {
       state.loading = false;
       state.isLogin = true;
       state.role = "user";
-      state.isError = null;
+      state.isError = false;
     },
     [loginUser.rejected]: (state) => {
       state.loading = false;
