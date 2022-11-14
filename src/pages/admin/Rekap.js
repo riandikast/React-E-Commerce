@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
 function Rekap() {
+  const navigate = useNavigate();
   let rekap = localStorage.getItem("rekap") ? JSON.parse(localStorage.getItem("rekap")) : "No Data";
 
   const totalPrice = () => {
@@ -9,6 +14,23 @@ function Rekap() {
     }
     return count.toFixed(2);
   };
+
+  let isAdmin = localStorage.getItem("admin")
+  useEffect(() => {
+    for (let i = 0; i < isAdmin.length; i++) {
+      if (isAdmin[i].admin === true) {
+        return true;
+      } else {
+          Swal.fire({
+            title: '',
+            text: "Please Login to access this page",
+            icon: 'warning',
+            confirmButtonText: 'Oke',
+          });
+          return navigate("/login");
+        }
+    }
+  })
     
     return (
       <div className="mt-20">
