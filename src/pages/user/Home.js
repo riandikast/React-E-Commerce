@@ -1,6 +1,7 @@
 import CardProduct from "../../components/CardProduct";
 import Hero from "../../components/Hero";
 import { motion } from "framer-motion";
+
 function Home() {
   const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
   const pageVariants = {
@@ -12,6 +13,7 @@ function Home() {
       transition: { duration: 0.5, ...transition },
     },
   };
+
   return (
     <>
       <motion.div
@@ -23,7 +25,7 @@ function Home() {
       >
         <Hero />
         <div className="w-11/12 mx-auto">
-          <div className="my-10">
+          <div className="my-10" id="products">
             <h2 className="text-center text-2xl font-bold mb-5 text-darkgreen">
               Our Best Seller
             </h2>
