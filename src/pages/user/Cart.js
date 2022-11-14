@@ -2,6 +2,7 @@ import CardCart from "../../components/CardCart";
 import { incrementCart, decrementCart } from "../../store/products/CartSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
+import Swal from "sweetalert2";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -61,6 +62,24 @@ function Cart() {
     }
   };
 
+  const checkout = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: "Successfully Checkout",
+    });
+    const data = JSON.parse(localStorage.getItem("cart"));
+    let rekapPenjualan = localStorage.getItem('rekap') ? JSON.parse(localStorage.getItem('rekap')) : [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].title === rekapPenjualan[i]?.title) {
+        rekapPenjualan[i].quantity++;
+      } else {
+        rekapPenjualan.push(data[i]);
+      }
+    }
+    localStorage.setItem("rekap", JSON.stringify(rekapPenjualan))
+  }
+
   useEffect(() => {
     setRefresh("buat refresh");
     listSaved();
@@ -81,7 +100,7 @@ function Cart() {
                 Total = ${total.toFixed(2)}
               </div>
               <div className="  mt-5 ml-auto mr-2 ">
-                <button className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md ">
+                <button className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md" onClick={checkout}>
                   Checkout
                 </button>
               </div>
