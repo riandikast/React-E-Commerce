@@ -35,12 +35,15 @@ function Cart() {
   const totalPrice = () => {
     let count = 0;
     const cart = JSON.parse(localStorage.getItem("cart"));
-    for (let i = 0; i < cart.length; i++) {
-      const total = cart[i].quantity * cart[i].price;
-      count += total;
+    if (cart!== null){
+      for (let i = 0; i < cart.length; i++) {
+        const total = cart[i].quantity * cart[i].price;
+        count += total;
+      }
+      setTotal(count);
+      console.log("ert", count);
     }
-    setTotal(count);
-    console.log("ert", count);
+
   };
 
   const listSaved = () => {
