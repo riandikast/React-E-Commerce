@@ -34,16 +34,8 @@ export const saveSlice = createSlice({
       });
     },
 
-    deleteProduct: (state, action) => {
-      if (!valid) {
-        state.saved = state.saved.filter(
-          (saved) => saved.title !== action.payload.title
-        );
-        localStorage.setItem("cart", JSON.stringify(state.saved));
-      }
-    },
 
-    deleteFromSaved: (state, action) => {
+    deleteFromCart: (state, action) => {
       state.saved = state.saved.filter(
         (saved) => saved.title !== action.payload.title
       );
@@ -91,6 +83,6 @@ export const saveSlice = createSlice({
 });
 
 export const saveSelector = (state) => state.saved;
-export const { addProduct, deleteProduct, deleteFromSaved, checkData, incrementCart, decrementCart } =
+export const { addProduct,  deleteFromCart, checkData, incrementCart, decrementCart } =
   saveSlice.actions;
 export default saveSlice.reducer;

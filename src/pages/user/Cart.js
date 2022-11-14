@@ -1,7 +1,8 @@
 import CardCart from "../../components/CardCart";
-import { incrementCart, decrementCart } from "../../store/products/CartSlice";
+import { incrementCart, decrementCart, deleteFromCart } from "../../store/products/CartSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
+import Swal from "sweetalert2";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -30,6 +31,31 @@ function Cart() {
     };
     dispatch(decrementCart(cart));
     setRefresh("decrement");
+  };
+
+  const handleDelete = (title) => {
+    Swal.fire({
+      title: 'Do you want to remove this product?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      reverseButtons : true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          "",
+          'success',
+        )
+        dispatch(deleteFromCart({ title: title }))
+        setRefresh("decrement");
+      }
+    })
+
+
   };
 
   const totalPrice = () => {
@@ -102,6 +128,7 @@ function Cart() {
             quantity={item.quantity}
             increament={() => handleIncrement(item)}
             decreament={() => handleDecrement(item)}
+            deleteClick={()=> handleDelete(item.title)}
           />
         ));
       }
