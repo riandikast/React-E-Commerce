@@ -13,6 +13,24 @@ function Cart() {
   const [refresh, setRefresh] = useState("");
   const [total, setTotal] = useState(0);
 
+  const checkout = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: "Successfully Checkout",
+    });
+    const data = JSON.parse(localStorage.getItem("cart"));
+    let rekapPenjualan = localStorage.getItem('rekap') ? JSON.parse(localStorage.getItem('rekap')) : [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].title === rekapPenjualan[i]?.title) {
+        rekapPenjualan[i].quantity++;
+      } else {
+        rekapPenjualan.push(data[i]);
+      }
+    }
+    localStorage.setItem("rekap", JSON.stringify(rekapPenjualan))
+  }
+  
   const handleIncrement = (product) => {
     let cart = {
       image: product.image,
@@ -68,6 +86,7 @@ function Cart() {
       console.log("ert", count);
     }
   };
+  
   const checkdata = () => {
     const data = JSON.parse(localStorage.getItem("cart"));
     if (data !== null) {
