@@ -35,7 +35,7 @@ function Cart() {
   const totalPrice = () => {
     let count = 0;
     const cart = JSON.parse(localStorage.getItem("cart"));
-    if (cart!== null){
+    if (cart !== null) {
       for (let i = 0; i < cart.length; i++) {
         const total = cart[i].quantity * cart[i].price;
         count += total;
@@ -43,9 +43,53 @@ function Cart() {
       setTotal(count);
       console.log("ert", count);
     }
-
   };
-
+  const checkdata = () => {
+    const data = JSON.parse(localStorage.getItem("cart"));
+    if (data !== null) {
+      if (data.length === 0) {
+        return (
+          <div className="justify-center items-center mt-24">
+            <i
+              class="fa fa-shopping-cart text-6xl mt-8 mb-6"
+              aria-hidden="true"
+            ></i>
+            <div className="justify-center text-center items-center h-3/5 text-lg">
+              {" "}
+              Your shoping cart is empty
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="w-3/6 mx-auto mt-4  flex flex-row  ">
+            <div className="text-left mt-5 ml-2 text-xl ">
+              {" "}
+              Total = ${total.toFixed(2)}
+            </div>
+            <div className="  mt-5 ml-auto mr-2 ">
+              <button className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md ">
+                Checkout
+              </button>
+            </div>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <div className="justify-center items-center mt-24">
+          <i
+            class="fa fa-shopping-cart text-6xl mt-8 mb-6"
+            aria-hidden="true"
+          ></i>
+          <div className="justify-center text-center items-center h-3/5 text-lg">
+            {" "}
+            Your shoping cart is empty
+          </div>
+        </div>
+      );
+    }
+  };
   const listSaved = () => {
     const data = JSON.parse(localStorage.getItem("cart"));
     if (data !== null) {
@@ -78,17 +122,8 @@ function Cart() {
             <h2 className="text-center text-2xl font-bold  text-darkgreen">
               Cart
             </h2>
-            <div className="w-3/6 mx-auto mt-4  flex flex-row  ">
-              <div className="text-left mt-5 ml-2 text-xl ">
-                {" "}
-                Total = ${total.toFixed(2)}
-              </div>
-              <div className="  mt-5 ml-auto mr-2 ">
-                <button className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md ">
-                  Checkout
-                </button>
-              </div>
-            </div>
+
+            {checkdata()}
             {listSaved()}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-20"></div>
           </div>
