@@ -1,5 +1,9 @@
 import CardCart from "../../components/CardCart";
-import { incrementCart, decrementCart, deleteFromCart } from "../../store/products/CartSlice";
+import {
+  incrementCart,
+  decrementCart,
+  deleteFromCart,
+} from "../../store/products/CartSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
 import Swal from "sweetalert2";
@@ -35,27 +39,21 @@ function Cart() {
 
   const handleDelete = (title) => {
     Swal.fire({
-      title: 'Do you want to remove this product?',
+      title: "Do you want to remove this product?",
       text: "",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
-      reverseButtons : true
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          "",
-          'success',
-        )
-        dispatch(deleteFromCart({ title: title }))
+        Swal.fire("Deleted!", "", "success");
+        dispatch(deleteFromCart({ title: title }));
         setRefresh("decrement");
       }
-    })
-
-
+    });
   };
 
   const totalPrice = () => {
@@ -94,7 +92,10 @@ function Cart() {
               Total = ${total.toFixed(2)}
             </div>
             <div className="  mt-5 ml-auto mr-2 ">
-              <button className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md ">
+              <button
+                disabled={buttonState()}
+                className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md "
+              >
                 Checkout
               </button>
             </div>
@@ -128,10 +129,41 @@ function Cart() {
             quantity={item.quantity}
             increament={() => handleIncrement(item)}
             decreament={() => handleDecrement(item)}
-            deleteClick={()=> handleDelete(item.title)}
+            deleteClick={() => handleDelete(item.title)}
+            stockMsg={checkStock(item.quantity)}
           />
         ));
       }
+    }
+  };
+
+  const checkStock = (quantity) => {
+    const data = JSON.parse(localStorage.getItem("product"));
+    for (let i = 0; i < data.length; i++) {
+      if (quantity > data[i].stock) {
+        return "Insufficient Stock";
+      } else {
+        return "";
+      }
+    }
+  };
+
+  const buttonState = () => {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    let prop = null;
+    for (let i = 0; i < cart.length; i++) {
+      console.log("azx", i);
+      if (checkStock(cart[i].quantity) === "Insufficient Stock") {
+        prop = "true"
+        break
+      }else{
+        prop = "false"
+      }
+    }
+    if (prop === "true"){
+      return true
+    }else {
+      return false
     }
   };
 
