@@ -15,25 +15,26 @@ function Rekap() {
     return count.toFixed(2);
   };
 
-  let isAdmin = localStorage.getItem("admin")
+  let isAdmin = JSON.parse(localStorage.getItem("admin"))
   useEffect(() => {
-    for (let i = 0; i < isAdmin.length; i++) {
-      if (isAdmin[i].admin === true) {
-        return true;
-      } else {
-          Swal.fire({
-            title: '',
-            text: "Please Login to access this page",
-            icon: 'warning',
-            confirmButtonText: 'Oke',
-          });
-          return navigate("/login");
-        }
-    }
-  })
+    isAdmin?.map((admin) => {
+      if (admin.admin === true) return true;
+      else {
+        Swal.fire({
+          title: '',
+          text: "Please Login to access this page",
+          icon: 'warning',
+          confirmButtonText: 'Oke',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        };
+      })
+    }});
+  }, [])
     
     return (
-      <div className="mt-20">
+      <div className="mt-28">
         <table className="table-auto border-2 border-darkgreen mx-auto">
           <thead className="border-2 border-darkgreen">
             <tr>
