@@ -1,17 +1,17 @@
-import { useEffect, useState, React, useRef } from "react";
+import { useEffect, useState, React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { emailUser, loginUser, loginAdmin } from "../../store/login/LoginSlice";
+import Swal from "sweetalert2";
+import { loginUser, loginAdmin, emailCheck, reset } from "../../store/login/LoginSlice";
 
 function Login() {
   const [refresh, setRefresh] = useState('')
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [emailInput, setEmailInput] = useState();
-  const [passwordInput, setPasswordInput] = useState();
-  const { username, isLogin, token, loading } = useSelector(
+  const { username, isLogin, isError, role} = useSelector(
     (state) => state.login
   );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [passwordInput, setPasswordInput] = useState();
 
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
@@ -22,20 +22,32 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setRefresh("Refresh perubahan data")
-    dispatch(loginUser({ username, password: passwordInput }));
-    dispatch(emailUser(emailInput));
-
-    let loginAsAdmin = {
-      emailInput,
-      passwordInput,
-    };
-    dispatch(loginAdmin(loginAsAdmin));
-
+    if (role === "user") {
+      dispatch(loginUser({ username, password: passwordInput }));
+    } else {
+      dispatch(loginAdmin({passwordInput}));
+    }
   };
-  useEffect(() => {
-    isLogin && navigate("/");
-  }, [isLogin]);
 
+  useEffect(() => {
+    dispatch(reset());
+    isLogin ? 
+    (isLogin && Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: "Successfully logged in",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/");
+      };
+    })) : (
+      isError && Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Email or Password are wrong",
+      })
+    )
+  }, [isLogin, isError]);
 
   useEffect(() => {
     if (adminCheck!==null){
@@ -58,7 +70,7 @@ function Login() {
       </div>
       <div className="h-[90vh] w-[80%] mx-auto flex flex-col justify-center items-center">
         <h3 className="text-darkgreen text-2xl font-semibold">Login</h3>
-        <form className="w-full" onSubmit={handleLogin}>
+        <form className="w-full">
           <div className="flex flex-col text-left my-5">
             <label htmlFor="email" className="mb-3">
               Email
@@ -68,7 +80,7 @@ function Login() {
               name="email"
               className="p-2 w-full rounded-lg"
               placeholder="John@gmail.com / admin@bukapedia.com"
-              onChange={(e) => setEmailInput(e.target.value)}
+              onChange={(e) => dispatch(emailCheck(e.target.value))}
             ></input>
           </div>
           <div className="flex flex-col ">
