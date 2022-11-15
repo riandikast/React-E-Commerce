@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from 'axios';
 import Swal from "sweetalert2";
 
 export const loginUser = createAsyncThunk("login/user", async (authInput) => {
@@ -29,7 +28,8 @@ let arrayAdmin = [...[], defaultAdmin];
 
 const initialState = {
   isLogin: localStorage.getItem("token") ? true : false,
-  email: "John@gmail.com",
+  emailUser: "John@gmail.com",
+  emailAdmin: "admin@bukapedia.com",
   username: null,
   token: localStorage.getItem("token"),
   loading: false,
@@ -44,13 +44,14 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    emailUser: (state, action) => {
-      if (state.email === action.payload) {
+    emailCheck: (state, action) => {
+      if (state.emailUser === action.payload) {
         state.username = "johnd";
         state.role = "user";
-        localStorage.setItem("email", state.email);
-      } else {
+      } else if (state.emailAdmin === action.payload) {
         state.role = "admin";
+      } else {
+        state.role = null;
       }
     },
     logoutUser: (state) => {
@@ -67,29 +68,19 @@ const loginSlice = createSlice({
         var BreakException = {};
 
         if (
-          acc.email === action.payload.emailInput &&
+          state.role === "admin" &&
           acc.password === action.payload.passwordInput
         ) {
           state.admin.map((admin) => {
             admin.admin = true;
           });
           localStorage.setItem("admin", JSON.stringify(state.admin));
-
           Swal.fire({
             icon: "success",
             title: "Success",
             text: "Successfully logged in",
-          });
+          })
           throw BreakException;
-        } else if (
-          state.email === action.payload.emailInput &&
-          "m38rmF$" === action.payload.passwordInput
-        ) {
-            Swal.fire({
-              icon: "success",
-              title: "Success",
-              text: "Successfully logged in",
-            });
         } else {
           Swal.fire({
             icon: "error",
@@ -99,12 +90,13 @@ const loginSlice = createSlice({
         }
       });
     },
+    reset: (state) => {
+      state.isError = false;
+    }
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
       state.loading = true;
-      state.isLogin = false;
-      state.isError = false;
     },
     [loginUser.fulfilled]: (state, action) => {
       state.loading = false;
@@ -114,12 +106,11 @@ const loginSlice = createSlice({
     },
     [loginUser.rejected]: (state) => {
       state.loading = false;
-      state.isLogin = false;
       state.isError = true;
     },
   },
 });
 
-export const { emailUser, logoutUser, loginAdmin } = loginSlice.actions;
+export const { emailCheck, logoutUser, loginAdmin, reset } = loginSlice.actions;
 export const loginSelector = (state) => state.login;
 export default loginSlice.reducer;
