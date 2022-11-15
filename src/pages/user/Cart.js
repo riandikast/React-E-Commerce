@@ -36,7 +36,7 @@ function Cart() {
     localStorage.setItem("rekap", JSON.stringify(rekapPenjualan));
   };
 
-  const handleCheckout = (data) => {
+  const handleCheckout = () => {
     Swal.fire({
       title: "Do you want to checkout?",
       text: "",
@@ -49,16 +49,11 @@ function Cart() {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("Success!", "", "success");
-        let productStock = {
-          image: data.image,
-          title: data.title,
-          price: data.price,
-          desc: data.description,
-          rating: data.rating,
-          id: data.id,
-          stock: data.stock,
-        };
-        dispatch(checkoutProduct({ productStock }));
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        for (let i = 0; i < cart.length; i++) {
+          dispatch(checkoutProduct(cart[i]));
+        }
+       
       }
     });
   };
@@ -88,7 +83,6 @@ function Cart() {
     dispatch(decrementCart(cart));
     setRefresh("delete");
   };
-
 
   const handleDelete = (title) => {
     Swal.fire({
@@ -121,20 +115,8 @@ function Cart() {
       console.log("ert", count);
     }
   };
-  
-  const buttonCheckout = (click) => {
-    return (
-      <>
-        <button
-          disabled={buttonState()}
-          onClick={click}
-          className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md "
-        >
-          Checkout
-        </button>
-      </>
-    );
-  };
+
+
   const checkdata = (title) => {
     const data = JSON.parse(localStorage.getItem("cart"));
     const data2 = JSON.parse(localStorage.getItem("product"));
@@ -162,7 +144,7 @@ function Cart() {
             <div className="  mt-5 ml-auto mr-2 ">
               <button
                 disabled={buttonState()}
-            
+                onClick={() => handleCheckout()}
                 className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md "
               >
                 Checkout
@@ -219,18 +201,28 @@ function Cart() {
 
   const buttonState = () => {
     const cart = JSON.parse(localStorage.getItem("cart"));
+    let result = "";
     for (let i = 0; i < cart.length; i++) {
       console.log("azx", cart[i].status);
       if (cart[i].status === "Not Available") {
-        return true;
+        result = "true";
+        break;
       } else {
-        return false;
+        result = "false";
       }
     }
 
+    if (result === "true") {
+      return true;
+    } else {
+      return false;
+    }
   };
-
   useEffect(() => {
+    checkdata()
+  }, []);
+  
+ useEffect(() => {
     setRefresh("buat refresh");
     listSaved();
     totalPrice();
@@ -238,15 +230,13 @@ function Cart() {
     const cart = JSON.parse(localStorage.getItem("cart"));
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].quantity > data[i].stock) {
-          console.log("oio", cart);
-          dispatch(outStock(cart[i]))
-   
+        dispatch(outStock(cart[i]));
       } else {
-          dispatch(readyStock(cart[i]))
-  
+        dispatch(readyStock(cart[i]));
       }
     }
   }, [refresh]);
+ 
 
   return (
     <>

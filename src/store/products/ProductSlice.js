@@ -46,7 +46,6 @@ const initialState = {
   loading: false,
   isError: null,
   stockProduct: JSON.parse(localStorage.getItem("product")) || [],
-  saved: JSON.parse(localStorage.getItem("cart")) || [],
 };
 
 const productSlice = createSlice({
@@ -55,20 +54,26 @@ const productSlice = createSlice({
   reducers: {
     checkoutProduct: (state, action) => {
       state.stockProduct.forEach((product) => {
-
-        for (let i = 0; i < state.saved.length; i++) {
-            if (product.title === state.saved[i].title) {
-                if (product.stock > 1) {
-                  product.stock = product.stock - state.saved[i].quantity;
-           
+            if (product.title === action.payload.title) {
+                console.log("zxc", action.payload)
+                if (product.stock > 0) {
+                  product.stock = product.stock - action.payload.quantity;
+                  localStorage.setItem("product", JSON.stringify(state.stockProduct));
+                  localStorage.removeItem("cart");
+                
                 } else {
                   product.stock = 0;
+                  localStorage.setItem("product", JSON.stringify(state.stockProduct));
+                  localStorage.removeItem("cart");
+                 
                 }
               } else {
                 product.stock = product.stock;
+                localStorage.setItem("product", JSON.stringify(state.stockProduct));
+                localStorage.removeItem("cart");
+               
               }
-              localStorage.setItem("product", JSON.stringify(state.stockProduct));
-        }
+        
          
         });
 

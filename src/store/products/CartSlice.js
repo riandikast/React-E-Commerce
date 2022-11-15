@@ -84,7 +84,7 @@ export const saveSlice = createSlice({
       state.saved.forEach((saved) => {
      
         if (saved.title === action.payload.title) {
-          console.log("zxc", action.payload.title)
+  
           saved.status = "Not Available"
           localStorage.setItem("cart", JSON.stringify(state.saved));
          
