@@ -17,6 +17,7 @@ export const saveSlice = createSlice({
       } else {
         state.saved.forEach((saved) => {
           var BreakException = {};
+       
           if (saved.title === action.payload.title) {
             saved.quantity = saved.quantity + 1;
             localStorage.setItem("cart", JSON.stringify(state.saved));
@@ -68,6 +69,7 @@ export const saveSlice = createSlice({
     decrementCart: (state, action) => {
       state.saved.forEach((saved) => {
         var BreakException = {};
+        console.log("rot", action.payload.title)
         if (saved.title === action.payload.title) {
           if (saved.quantity > 1){
             saved.quantity = saved.quantity - 1;
@@ -78,11 +80,36 @@ export const saveSlice = createSlice({
       });
     },
 
+    outStock: (state, action) => {
+      state.saved.forEach((saved) => {
+     
+        if (saved.title === action.payload.title) {
+          console.log("zxc", action.payload.title)
+          saved.status = "Not Available"
+          localStorage.setItem("cart", JSON.stringify(state.saved));
+         
+        }
+     
+      });
+    },
+
+    readyStock: (state, action) => {
+
+      state.saved.forEach((saved) => {
+     
+        if (saved.title === action.payload.title) {
+          saved.status = "Available"
+          localStorage.setItem("cart", JSON.stringify(state.saved));
+        }
+      
+      });
+    },
+
     
   },
 });
 
 export const saveSelector = (state) => state.saved;
-export const { addProduct,  deleteFromCart, checkData, incrementCart, decrementCart } =
+export const { addProduct,  deleteFromCart, checkData, incrementCart, decrementCart, outStock, readyStock } =
   saveSlice.actions;
 export default saveSlice.reducer;

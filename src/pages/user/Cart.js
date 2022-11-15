@@ -3,7 +3,10 @@ import {
   incrementCart,
   decrementCart,
   deleteFromCart,
+  outStock,
+  readyStock,
 } from "../../store/products/CartSlice";
+import { checkoutProduct } from "../../store/products/ProductSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
 import Swal from "sweetalert2";
@@ -20,7 +23,9 @@ function Cart() {
       text: "Successfully Checkout",
     });
     const data = JSON.parse(localStorage.getItem("cart"));
-    let rekapPenjualan = localStorage.getItem('rekap') ? JSON.parse(localStorage.getItem('rekap')) : [];
+    let rekapPenjualan = localStorage.getItem("rekap")
+      ? JSON.parse(localStorage.getItem("rekap"))
+      : [];
     for (let i = 0; i < data.length; i++) {
       if (data[i].title === rekapPenjualan[i]?.title) {
         rekapPenjualan[i].quantity++;
@@ -28,15 +33,43 @@ function Cart() {
         rekapPenjualan.push(data[i]);
       }
     }
-    localStorage.setItem("rekap", JSON.stringify(rekapPenjualan))
-  }
-  
+    localStorage.setItem("rekap", JSON.stringify(rekapPenjualan));
+  };
+
+  const handleCheckout = (data) => {
+    Swal.fire({
+      title: "Do you want to checkout?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Success!", "", "success");
+        let productStock = {
+          image: data.image,
+          title: data.title,
+          price: data.price,
+          desc: data.description,
+          rating: data.rating,
+          id: data.id,
+          stock: data.stock,
+        };
+        dispatch(checkoutProduct({ productStock }));
+      }
+    });
+  };
+
   const handleIncrement = (product) => {
     let cart = {
       image: product.image,
       title: product.title,
       price: product.price,
       desc: product.description,
+      status: product.status,
       quantity: 1,
     };
     dispatch(incrementCart(cart));
@@ -49,11 +82,13 @@ function Cart() {
       title: product.title,
       price: product.price,
       desc: product.description,
+      status: product.status,
       quantity: 1,
     };
     dispatch(decrementCart(cart));
-    setRefresh("decrement");
+    setRefresh("delete");
   };
+
 
   const handleDelete = (title) => {
     Swal.fire({
@@ -87,8 +122,22 @@ function Cart() {
     }
   };
   
-  const checkdata = () => {
+  const buttonCheckout = (click) => {
+    return (
+      <>
+        <button
+          disabled={buttonState()}
+          onClick={click}
+          className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md "
+        >
+          Checkout
+        </button>
+      </>
+    );
+  };
+  const checkdata = (title) => {
     const data = JSON.parse(localStorage.getItem("cart"));
+    const data2 = JSON.parse(localStorage.getItem("product"));
     if (data !== null) {
       if (data.length === 0) {
         return (
@@ -113,6 +162,7 @@ function Cart() {
             <div className="  mt-5 ml-auto mr-2 ">
               <button
                 disabled={buttonState()}
+            
                 className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md "
               >
                 Checkout
@@ -149,47 +199,53 @@ function Cart() {
             increament={() => handleIncrement(item)}
             decreament={() => handleDecrement(item)}
             deleteClick={() => handleDelete(item.title)}
-            stockMsg={checkStock(item.quantity)}
+            stockMsg={checkStock(item.status)}
           />
         ));
       }
     }
   };
 
-  const checkStock = (quantity) => {
-    const data = JSON.parse(localStorage.getItem("product"));
-    for (let i = 0; i < data.length; i++) {
-      if (quantity > data[i].stock) {
-        return "Insufficient Stock";
-      } else {
-        return "";
-      }
+  const checkStock = (status) => {
+    let result = "";
+    if (status === "Not Available") {
+      result = "Insufficient Stock";
+    } else {
+      result = "";
     }
+
+    return result;
   };
 
   const buttonState = () => {
     const cart = JSON.parse(localStorage.getItem("cart"));
-    let prop = null;
     for (let i = 0; i < cart.length; i++) {
-      console.log("azx", i);
-      if (checkStock(cart[i].quantity) === "Insufficient Stock") {
-        prop = "true"
-        break
-      }else{
-        prop = "false"
+      console.log("azx", cart[i].status);
+      if (cart[i].status === "Not Available") {
+        return true;
+      } else {
+        return false;
       }
     }
-    if (prop === "true"){
-      return true
-    }else {
-      return false
-    }
+
   };
 
   useEffect(() => {
     setRefresh("buat refresh");
     listSaved();
     totalPrice();
+    const data = JSON.parse(localStorage.getItem("product"));
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].quantity > data[i].stock) {
+          console.log("oio", cart);
+          dispatch(outStock(cart[i]))
+   
+      } else {
+          dispatch(readyStock(cart[i]))
+  
+      }
+    }
   }, [refresh]);
 
   return (

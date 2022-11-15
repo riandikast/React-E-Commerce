@@ -21,6 +21,7 @@ function Detail() {
       title: product.title,
       price: product.price,
       desc: product.description,
+      status: "Available",
       quantity: 1,
     };
     dispatch(checkData(cart));

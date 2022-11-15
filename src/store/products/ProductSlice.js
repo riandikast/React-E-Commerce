@@ -45,12 +45,35 @@ const initialState = {
   product: [],
   loading: false,
   isError: null,
+  stockProduct: JSON.parse(localStorage.getItem("product")) || [],
+  saved: JSON.parse(localStorage.getItem("cart")) || [],
 };
 
 const productSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    checkoutProduct: (state, action) => {
+      state.stockProduct.forEach((product) => {
+
+        for (let i = 0; i < state.saved.length; i++) {
+            if (product.title === state.saved[i].title) {
+                if (product.stock > 1) {
+                  product.stock = product.stock - state.saved[i].quantity;
+           
+                } else {
+                  product.stock = 0;
+                }
+              } else {
+                product.stock = product.stock;
+              }
+              localStorage.setItem("product", JSON.stringify(state.stockProduct));
+        }
+         
+        });
+
+    },
+  },
 
   extraReducers: {
     [getAllProduct.pending]: (state) => {
@@ -75,7 +98,7 @@ const productSlice = createSlice({
         const data = JSON.parse(localStorage.getItem("product") || "[]");
         for (let i = 0; i < data.length; i++) {
           if (stockProduct.title === data[i].title) {
-            saveToLocal= false;
+            saveToLocal = false;
             break;
           } else {
             saveToLocal = true;
@@ -121,4 +144,5 @@ const productSlice = createSlice({
 });
 
 export const productSelector = (state) => state.product;
+export const { checkoutProduct } = productSlice.actions;
 export default productSlice.reducer;
