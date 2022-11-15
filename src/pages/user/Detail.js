@@ -17,6 +17,7 @@ function Detail() {
   const navigate = useNavigate();
   const handleSave = (product) => {
     let cart = {
+      id: product.id,
       image: product.image,
       title: product.title,
       price: product.price,

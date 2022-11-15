@@ -228,7 +228,8 @@ function Cart() {
     const cart = JSON.parse(localStorage.getItem("cart"));
     if (cart!==null && data!==null){
       for (let i = 0; i < cart.length; i++) {
-        if (cart[i].quantity > data[i].stock) {
+        let findProduct = data.find(product => product.id === cart[i].id)
+        if (cart[i].quantity > findProduct.stock) {
           dispatch(outStock(cart[i]));
         } else {
           dispatch(readyStock(cart[i]));

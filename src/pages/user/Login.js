@@ -17,7 +17,9 @@ function Login() {
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
-  const adminCheck = JSON.parse(localStorage.getItem("admin"));
+
+  const [adminCheck, setAdminCheck] = useState(null)
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,6 +29,8 @@ function Login() {
     } else {
       dispatch(loginAdmin({passwordInput}));
     }
+    
+  
   };
 
   useEffect(() => {
@@ -52,8 +56,8 @@ function Login() {
   useEffect(() => {
     if (adminCheck!==null){
       for (let i = 0; i < adminCheck.length; i++) {
-        if (adminCheck[i].admin === true) {
-          navigate("/");
+        if (adminCheck[i].admin === true) { 
+            navigate('/')
         }
       }
     }
