@@ -6,7 +6,10 @@ function CardCart({
   increament,
   decreament,
   deleteClick,
-}) {
+  stockMsg,
+})
+
+{
   return (
     <>
       <div className="w-3/6 mx-auto mt-6">
@@ -56,11 +59,14 @@ function CardCart({
                     +
                   </button>
                 </div>
+                
               </div>
+            
               <div className="text-darkgreen text-base font-bold mb-5">
                 ${price}
               </div>
             </div>
+            <div className="text-[#f70000]">{stockMsg}</div>
           </div>
         </div>
       </div>

@@ -25,7 +25,13 @@ let defaultAdmin = {
   admin: false,
 };
 let arrayAdmin = [...[], defaultAdmin];
+const setAdmin = ()=> {
+  const data = JSON.parse(localStorage.getItem("admin")) 
+  if (data === null || data.length === 0){
+    return localStorage.setItem("admin", JSON.stringify(...[], arrayAdmin))
+  }
 
+}
 const initialState = {
   isLogin: localStorage.getItem("token") ? true : false,
   emailUser: "John@gmail.com",
@@ -35,7 +41,7 @@ const initialState = {
   loading: false,
   isError: false,
   role: null,
-  setAdmin: [localStorage.setItem("admin", JSON.stringify(...[], arrayAdmin))],
+  setAdmin: setAdmin(),
   admin: JSON.parse(localStorage.getItem("admin")) || [],
   value: "",
 };
