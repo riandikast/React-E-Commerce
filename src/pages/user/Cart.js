@@ -48,12 +48,12 @@ function Cart() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
+        setRefresh("checkout")
         Swal.fire("Success!", "", "success");
         const cart = JSON.parse(localStorage.getItem("cart"));
         for (let i = 0; i < cart.length; i++) {
           dispatch(checkoutProduct(cart[i]));
-        }
-       
+        }    
       }
     });
   };
@@ -218,23 +218,24 @@ function Cart() {
       return false;
     }
   };
-  useEffect(() => {
-    checkdata()
-  }, []);
-  
+
+
  useEffect(() => {
     setRefresh("buat refresh");
     listSaved();
     totalPrice();
     const data = JSON.parse(localStorage.getItem("product"));
     const cart = JSON.parse(localStorage.getItem("cart"));
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].quantity > data[i].stock) {
-        dispatch(outStock(cart[i]));
-      } else {
-        dispatch(readyStock(cart[i]));
-      }
+    if (cart!==null && data!==null){
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].quantity > data[i].stock) {
+          dispatch(outStock(cart[i]));
+        } else {
+          dispatch(readyStock(cart[i]));
+        } 
     }
+    }
+
   }, [refresh]);
  
 
