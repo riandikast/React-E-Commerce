@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/login/LoginSlice";
 import Swal from "sweetalert2";
 import { Link as ScrollLink, animateScroll as scroll, scroller } from "react-scroll";
+import { useAtom, atom } from 'jotai'
 
+export const navbarState = atom("active")
 function Navbar() {
+
+
   const [refresh, setRefresh] = useState("");
   const location = useLocation();
   const dispatch = useDispatch();
   const [path, setPath] = useState(null);
   const [showNav, setShowNav] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [active, setActive] = useState("active");
+  const [active, setActive] = useAtom(navbarState);
   const { isLogin } = useSelector((state) => state.login);
   const adminCheck = JSON.parse(localStorage.getItem("admin"));
   const navigate = useNavigate();
