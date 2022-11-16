@@ -14,7 +14,7 @@ function CardCart({
     <>
       <div className="w-3/6 mx-auto mt-6">
         <div className="px-3 py-5 rounded-md bg-white flex justify-center">
-          <img src={image} alt="img" className="w-20 h-24 mr-20" />
+          <img src={image} alt="img" className="w-20 h-24 mr-20 mr-24 my-auto" />
           <div className="w-1/2 text-left">
             <div className="flex flex-row">
               <h2 className="text-darkgreen text-base font-bold mb-8 mr-8 line-clamp-2">{title}</h2>

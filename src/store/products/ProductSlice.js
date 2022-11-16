@@ -54,30 +54,34 @@ const productSlice = createSlice({
   reducers: {
     checkoutProduct: (state, action) => {
       state.stockProduct.forEach((product) => {
-            if (product.title === action.payload.title) {
-                console.log("zxc", action.payload)
-                if (product.stock > 0) {
-                  product.stock = product.stock - action.payload.quantity;
-                  localStorage.setItem("product", JSON.stringify(state.stockProduct));
-                  localStorage.removeItem("cart");
-                
-                } else {
-                  product.stock = 0;
-                  localStorage.setItem("product", JSON.stringify(state.stockProduct));
-                  localStorage.removeItem("cart");
-                 
-                }
-              } else {
-                product.stock = product.stock;
-                localStorage.setItem("product", JSON.stringify(state.stockProduct));
-                localStorage.removeItem("cart");
-               
-              }
-        
-         
-        });
-
+        if (product.title === action.payload.title) {
+          console.log("zxc", action.payload);
+          if (product.stock > 0) {
+            product.stock = product.stock - action.payload.quantity;
+            localStorage.setItem("product", JSON.stringify(state.stockProduct));
+            localStorage.removeItem("cart");
+          } else {
+            product.stock = 0;
+            localStorage.setItem("product", JSON.stringify(state.stockProduct));
+            localStorage.removeItem("cart");
+          }
+        } else {
+          product.stock = product.stock;
+          localStorage.setItem("product", JSON.stringify(state.stockProduct));
+          localStorage.removeItem("cart");
+        }
+      });
     },
+
+    updateStock: (state, action) => {
+        state.stockProduct.forEach((product) => {
+          if (product.id === action.payload.id) {
+            console.log("opo",  action.payload.id)
+            product.stock = action.payload.stock
+            localStorage.setItem("product", JSON.stringify(state.stockProduct));
+          }
+        });
+      },
   },
 
   extraReducers: {
@@ -149,5 +153,5 @@ const productSlice = createSlice({
 });
 
 export const productSelector = (state) => state.product;
-export const { checkoutProduct } = productSlice.actions;
+export const { checkoutProduct, updateStock } = productSlice.actions;
 export default productSlice.reducer;
