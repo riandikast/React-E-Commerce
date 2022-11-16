@@ -8,17 +8,30 @@ import Detail from "../pages/user/Detail";
 import Home from "../pages/user/Home";
 import Login from "../pages/user/Login";
 
+
 function AnimatedRoutes() {
   let location = useLocation();
+  const adminCheck = JSON.parse(localStorage.getItem("admin"));
+  const homeByRole = () => {
+    if (adminCheck !== null) {
+      for (let i = 0; i < adminCheck.length; i++) {
+        if (adminCheck[i].admin === true) {
+          return <Stok/>
+        } else {
+          return <Home/>
+        }
+      }
+    }
+  }
+
   return (
     <AnimatePresence exitBeforeEnter initial={false}>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={homeByRole()} />
         <Route path="/login" element={<Login />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/cart" element={<Cart />} />
         {/* admin */}
-        <Route path="/stok" element={<Stok />} />
         <Route path="/rekap" element={<Rekap />} />
       </Routes>
     </AnimatePresence>

@@ -18,7 +18,7 @@ function Login() {
     setPasswordShown(!passwordShown);
   };
 
-  const [adminCheck, setAdminCheck] = useState(null)
+  const adminCheck = JSON.parse(localStorage.getItem("admin"));
 
 
   const handleLogin = async (e) => {
