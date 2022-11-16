@@ -77,7 +77,7 @@ const productSlice = createSlice({
           localStorage.setItem("product", JSON.stringify(state.stockProduct));
         }
       });
-      localStorage.setItem("cart", JSON.stringify([]));
+     
     },
 
     updateStock: (state, action) => {

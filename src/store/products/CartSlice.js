@@ -110,7 +110,9 @@ export const saveSlice = createSlice({
 
     clearCart: (state, action) => {
       state.saved= []
-    }
+      localStorage.setItem("cart", JSON.stringify([]));
+    },
+
   },
 });
 
@@ -124,5 +126,6 @@ export const {
   outStock,
   readyStock,
   clearCart,
+
 } = saveSlice.actions;
 export default saveSlice.reducer;

@@ -5,37 +5,32 @@ import {
   deleteFromCart,
   outStock,
   readyStock,
-  clearCart
+  clearCart,
+  createRecap,
 } from "../../store/products/CartSlice";
 import { checkoutProduct } from "../../store/products/ProductSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
 import Swal from "sweetalert2";
-import { checkData } from "../../store/products/CartSlice";
 
 function Cart() {
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState("");
   const [total, setTotal] = useState(0);
   const cart = JSON.parse(localStorage.getItem("cart"));
-  const checkout = () => {
-    Swal.fire({
-      icon: "success",
-      title: "Success",
-      text: "Successfully Checkout",
-    });
-    const data = JSON.parse(localStorage.getItem("cart"));
+  
+  const setRecap = (cart) => {
     let rekapPenjualan = localStorage.getItem("rekap")
       ? JSON.parse(localStorage.getItem("rekap"))
       : [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].title === rekapPenjualan[i]?.title) {
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].title === rekapPenjualan[i]?.title) {
         rekapPenjualan[i].quantity++;
       } else {
-        rekapPenjualan.push(data[i]);
+        rekapPenjualan.push(cart[i]);
       }
     }
-    localStorage.setItem("rekap", JSON.stringify(rekapPenjualan));
+    return localStorage.setItem("rekap", JSON.stringify(rekapPenjualan));
   };
 
   const handleCheckout = () => {
@@ -50,14 +45,14 @@ function Cart() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        setRefresh("checkout")
+        setRefresh("checkout");
         Swal.fire("Success!", "", "success");
         const cart = JSON.parse(localStorage.getItem("cart"));
         for (let i = 0; i < cart.length; i++) {
           dispatch(checkoutProduct(cart[i]));
-             
-        }  
-        dispatch(clearCart())
+          setRecap(cart)
+        }
+        dispatch(clearCart());
       }
     });
   };
@@ -119,7 +114,6 @@ function Cart() {
       console.log("ert", count);
     }
   };
-
 
   const checkdata = (title) => {
     const data = JSON.parse(localStorage.getItem("cart"));
@@ -221,28 +215,22 @@ function Cart() {
     }
   };
 
-
- useEffect(() => {
+  useEffect(() => {
     setRefresh("buat refresh");
     listSaved();
     totalPrice();
     const data = JSON.parse(localStorage.getItem("product"));
-    if (cart!==null && data!==null){
+    if (cart !== null && data !== null) {
       for (let i = 0; i < cart.length; i++) {
-      
-        let findProduct = data.find(product => product.id === cart[i].id)
+        let findProduct = data.find((product) => product.id === cart[i].id);
         if (cart[i].quantity > findProduct.stock) {
           dispatch(outStock(cart[i]));
         } else {
           dispatch(readyStock(cart[i]));
-        } 
+        }
+      }
     }
-    }
-
   }, [refresh]);
-
-
- 
 
   return (
     <>
