@@ -17,7 +17,7 @@ function CardCart({
           <img src={image} alt="img" className="w-20 h-24 mr-20" />
           <div className="w-1/2 text-left">
             <div className="flex flex-row">
-              <h2 className="text-darkgreen text-base font-bold mb-8 mr-8">{title}</h2>
+              <h2 className="text-darkgreen text-base font-bold mb-8 mr-8 line-clamp-2">{title}</h2>
               <div className="ml-auto mt-1">
               <button
                 onClick={deleteClick}
