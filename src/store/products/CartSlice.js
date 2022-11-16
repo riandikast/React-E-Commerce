@@ -107,6 +107,10 @@ export const saveSlice = createSlice({
         }
       });
     },
+
+    clearCart: (state, action) => {
+      state.saved= []
+    }
   },
 });
 
@@ -119,5 +123,6 @@ export const {
   decrementCart,
   outStock,
   readyStock,
+  clearCart,
 } = saveSlice.actions;
 export default saveSlice.reducer;

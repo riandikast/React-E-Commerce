@@ -5,6 +5,7 @@ import {
   deleteFromCart,
   outStock,
   readyStock,
+  clearCart
 } from "../../store/products/CartSlice";
 import { checkoutProduct } from "../../store/products/ProductSlice";
 import { useDispatch } from "react-redux";
@@ -55,7 +56,8 @@ function Cart() {
         for (let i = 0; i < cart.length; i++) {
           dispatch(checkoutProduct(cart[i]));
              
-        }    
+        }  
+        dispatch(clearCart())
       }
     });
   };
