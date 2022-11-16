@@ -59,29 +59,24 @@ const productSlice = createSlice({
           if (product.stock > 0) {
             product.stock = product.stock - action.payload.quantity;
             localStorage.setItem("product", JSON.stringify(state.stockProduct));
-            localStorage.removeItem("cart");
-          } else {
-            product.stock = 0;
-            localStorage.setItem("product", JSON.stringify(state.stockProduct));
-            localStorage.removeItem("cart");
           }
         } else {
           product.stock = product.stock;
           localStorage.setItem("product", JSON.stringify(state.stockProduct));
-          localStorage.removeItem("cart");
         }
       });
+      localStorage.setItem("cart", JSON.stringify([]));
     },
 
     updateStock: (state, action) => {
-        state.stockProduct.forEach((product) => {
-          if (product.id === action.payload.id) {
-            console.log("opo",  action.payload.id)
-            product.stock = action.payload.stock
-            localStorage.setItem("product", JSON.stringify(state.stockProduct));
-          }
-        });
-      },
+      state.stockProduct.forEach((product) => {
+        if (product.id === action.payload.id) {
+          console.log("opo", action.payload.id);
+          product.stock = action.payload.stock;
+          localStorage.setItem("product", JSON.stringify(state.stockProduct));
+        }
+      });
+    },
   },
 
   extraReducers: {

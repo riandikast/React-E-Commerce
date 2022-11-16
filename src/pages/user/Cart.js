@@ -10,12 +10,13 @@ import { checkoutProduct } from "../../store/products/ProductSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
 import Swal from "sweetalert2";
+import { checkData } from "../../store/products/CartSlice";
 
 function Cart() {
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState("");
   const [total, setTotal] = useState(0);
-
+  const cart = JSON.parse(localStorage.getItem("cart"));
   const checkout = () => {
     Swal.fire({
       icon: "success",
@@ -53,6 +54,7 @@ function Cart() {
         const cart = JSON.parse(localStorage.getItem("cart"));
         for (let i = 0; i < cart.length; i++) {
           dispatch(checkoutProduct(cart[i]));
+             
         }    
       }
     });
@@ -119,7 +121,6 @@ function Cart() {
 
   const checkdata = (title) => {
     const data = JSON.parse(localStorage.getItem("cart"));
-    const data2 = JSON.parse(localStorage.getItem("product"));
     if (data !== null) {
       if (data.length === 0) {
         return (
@@ -200,7 +201,6 @@ function Cart() {
   };
 
   const buttonState = () => {
-    const cart = JSON.parse(localStorage.getItem("cart"));
     let result = "";
     for (let i = 0; i < cart.length; i++) {
       console.log("azx", cart[i].status);
@@ -225,9 +225,9 @@ function Cart() {
     listSaved();
     totalPrice();
     const data = JSON.parse(localStorage.getItem("product"));
-    const cart = JSON.parse(localStorage.getItem("cart"));
     if (cart!==null && data!==null){
       for (let i = 0; i < cart.length; i++) {
+      
         let findProduct = data.find(product => product.id === cart[i].id)
         if (cart[i].quantity > findProduct.stock) {
           dispatch(outStock(cart[i]));
@@ -238,6 +238,8 @@ function Cart() {
     }
 
   }, [refresh]);
+
+
  
 
   return (

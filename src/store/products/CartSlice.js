@@ -2,21 +2,35 @@ import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 var valid: Boolean;
 
+const setCart = ()=> {
+  const cart = JSON.parse(localStorage.getItem("cart")) 
+  if (cart === null || cart.length === 0){
+    return localStorage.setItem("cart", JSON.stringify([]))
+  }
+
+}
 export const saveSlice = createSlice({
   name: "cart",
   initialState: {
     saved: JSON.parse(localStorage.getItem("cart")) || [],
     value: "",
+    setSaved : setCart()
   },
   reducers: {
     addProduct: (state, action) => {
       if (valid) {
-        state.saved = [...state.saved, action.payload];
+        const cart = JSON.parse(localStorage.getItem("cart")) 
+        if (cart.length === 0){
+          state.saved = [action.payload];
+        }else{
+          state.saved = [...state.saved, action.payload];
+        }
+       
         localStorage.setItem("cart", JSON.stringify(state.saved));
       } else {
         state.saved.forEach((saved) => {
           var BreakException = {};
-
+      
           if (saved.title === action.payload.title) {
             saved.quantity = saved.quantity + 1;
             localStorage.setItem("cart", JSON.stringify(state.saved));
