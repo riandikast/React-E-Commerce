@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/login/LoginSlice";
 import Swal from "sweetalert2";
-import { Link as ScrollLink } from "react-scroll";
+import { Link as ScrollLink, animateScroll as scroll, scroller } from "react-scroll";
 
 function Navbar() {
   const [refresh, setRefresh] = useState("");
@@ -13,16 +13,32 @@ function Navbar() {
   const [path, setPath] = useState(null);
   const [showNav, setShowNav] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [active, setActive] = useState("active");
   const { isLogin } = useSelector((state) => state.login);
   const adminCheck = JSON.parse(localStorage.getItem("admin"));
   const navigate = useNavigate();
-
+  const scrollToTop = () => {
+    setActive("active");
+    scroll.scrollToTop();
+   
+  };
+  const scrollToProduct = () => {
+    setActive("productActive");
+   
+  };
   useEffect(() => {
     setPath(location.pathname);
+    if (active==="productActive"){
+      setTimeout(()=>{scroller.scrollTo('productElement',{smooth:true, spy:true, duration:700})} , 1000)
+    }
+ 
+    
+    
   }, [location]);
 
   useEffect(() => {
     setRefresh("");
+
   }, [refresh]);
 
   const handleLogout = async () => {
@@ -40,8 +56,7 @@ function Navbar() {
         dispatch(logoutUser());
         setIsAdmin(false);
         setRefresh("Refresh");
-        navigate("/")
-        
+        navigate("/");
       }
     });
   };
@@ -68,22 +83,39 @@ function Navbar() {
               exact="true"
               to={"/"}
               className={
-                path === "/"
+                path === "/" && active === "active"
                   ? "text-xs md:text-base mr-3 border-b-2 border-black  "
                   : "text-xs md:text-base mr-3"
               }
             >
-              Home
+              {path === "/" ? (
+                <ScrollLink onClick={scrollToTop} smooth={true} spy={true}>
+                  Home
+                </ScrollLink>
+              ) : (
+                <Link onClick={()=>setActive("active")} to={"/"}>Home</Link>
+              )}
             </NavLink>
 
-            <ScrollLink
-              to="products"
-              smooth={true}
-              spy={true}
-              className="text-xs md:text-base mr-3"
-            >
-              Products
-            </ScrollLink>
+            <NavLink className={
+                path === "/" && active === "productActive"
+                  ? "text-xs md:text-base mr-3 border-b-2 border-black  "
+                  : "text-xs md:text-base mr-3"
+              }>
+              {path === "/" ? (
+                <ScrollLink
+                  onClick={()=>setActive("productActive")}
+                
+                  to={"products"}
+                  smooth={true}
+                  spy={true}
+                >
+                  Product
+                </ScrollLink>
+              ) : (
+                <Link onClick={scrollToProduct} to={"/"}>Product</Link>
+              )}
+            </NavLink>
           </div>
         ) : (
           <div className="flex">
