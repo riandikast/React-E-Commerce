@@ -41,11 +41,22 @@ export const getCategory = createAsyncThunk(
   }
 );
 
+const setProduct = () => {
+    
+  const data = JSON.parse(localStorage.getItem("product"));
+  if (data === null || data.length === 0) {
+    return localStorage.setItem("product", JSON.stringify([]));
+  }
+};
+
 const initialState = {
   product: [],
   loading: false,
   isError: null,
+  setProduct: setProduct(),
   stockProduct: JSON.parse(localStorage.getItem("product")) || [],
+ 
+
 };
 
 const productSlice = createSlice({
@@ -54,6 +65,7 @@ const productSlice = createSlice({
   reducers: {
     checkoutProduct: (state, action) => {
       state.stockProduct.forEach((product) => {
+    
         if (product.title === action.payload.title) {
           console.log("zxc", action.payload);
           if (product.stock > 0) {
@@ -109,11 +121,14 @@ const productSlice = createSlice({
           }
         }
         if (saveToLocal) {
+            state.stockProduct = [...data, stockProduct]
           localStorage.setItem(
             "product",
-            JSON.stringify([...data, stockProduct])
+            JSON.stringify(state.stockProduct)
           );
+  
         }
+        console.log("jkl", state.stockProduct.length)
       });
     },
     [getAllProduct.rejected]: (state) => {

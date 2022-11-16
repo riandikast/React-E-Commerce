@@ -12,9 +12,10 @@ const setCart = ()=> {
 export const saveSlice = createSlice({
   name: "cart",
   initialState: {
+    setSaved : setCart(),
     saved: JSON.parse(localStorage.getItem("cart")) || [],
     value: "",
-    setSaved : setCart()
+  
   },
   reducers: {
     addProduct: (state, action) => {
