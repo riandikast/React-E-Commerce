@@ -12,13 +12,23 @@ import { checkoutProduct } from "../../store/products/ProductSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, React, useRef } from "react";
 import Swal from "sweetalert2";
-
+import { motion } from "framer-motion";
 function Cart() {
+  const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
+  const pageVariants = {
+    initial: { scale: 0.2, opacity: 100 },
+    in: { scale: 1, opacity: 1, transition: { duration: 0.5, ...transition } },
+    out: {
+      scale: 0.2,
+      opacity: 0,
+      transition: { duration: 0.5, ...transition },
+    },
+  };
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState("");
   const [total, setTotal] = useState(0);
   const cart = JSON.parse(localStorage.getItem("cart"));
-  
+
   const setRecap = (cart) => {
     let rekapPenjualan = localStorage.getItem("rekap")
       ? JSON.parse(localStorage.getItem("rekap"))
@@ -50,7 +60,7 @@ function Cart() {
         const cart = JSON.parse(localStorage.getItem("cart"));
         for (let i = 0; i < cart.length; i++) {
           dispatch(checkoutProduct(cart[i]));
-          setRecap(cart)
+          setRecap(cart);
         }
         dispatch(clearCart());
       }
@@ -234,19 +244,27 @@ function Cart() {
 
   return (
     <>
-      <div className="">
-        <div className="w-11/12 mx-auto ">
-          <div className="mt-20">
-            <h2 className="text-center text-2xl font-bold  text-darkgreen">
-              Cart
-            </h2>
+      <motion.div
+        className=""
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+      >
+        <div className="">
+          <div className="w-11/12 mx-auto ">
+            <div className="mt-20">
+              <h2 className="text-center text-2xl font-bold  text-darkgreen">
+                Cart
+              </h2>
 
-            {checkdata()}
-            {listSaved()}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-20"></div>
+              {checkdata()}
+              {listSaved()}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-20"></div>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

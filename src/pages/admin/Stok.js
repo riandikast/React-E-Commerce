@@ -3,8 +3,18 @@ import { useEffect, useState, React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStock } from "../../store/products/ProductSlice";
 import Swal from "sweetalert2";
-
+import { motion } from "framer-motion";
 function Stok() {
+  const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
+  const pageVariants = {
+    initial: { scale: 0.2, opacity: 100 },
+    in: { scale: 1, opacity: 1, transition: { duration: 0.5, ...transition } },
+    out: {
+      scale: 0.2,
+      opacity: 0,
+      transition: { duration: 0.5, ...transition },
+    },
+  };
   const [stockInput, setStockInput] = useState(null);
   const dispatch = useDispatch();
 
@@ -45,6 +55,13 @@ function Stok() {
 
   return (
     <>
+     <motion.div
+        className=""
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+      >
       <div className="w-11/12 mx-auto">
         <div className="my-10" id="products">
           <h2 className="mt-20 text-center text-2xl font-bold mb-5 text-darkgreen">
@@ -53,6 +70,8 @@ function Stok() {
           <div>{listStock()}</div>
         </div>
       </div>
+      </motion.div>
+
     </>
   );
 }

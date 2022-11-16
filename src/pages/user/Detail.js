@@ -7,8 +7,18 @@ import {
 } from "../../store/products/ProductSlice";
 import { addProduct, checkData } from "../../store/products/CartSlice";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 function Detail() {
+  const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
+  const pageVariants = {
+    initial: { scale: 0.2, opacity: 100 },
+    in: { scale: 1, opacity: 1, transition: { duration: 0.5, ...transition } },
+    out: {
+      scale: 0.2,
+      opacity: 0,
+      transition: { duration: 0.5, ...transition },
+    },
+  };
   const [refresh, setRefresh] = useState("");
   const token = localStorage.getItem("token");
   const { id } = useParams();
@@ -103,22 +113,30 @@ function Detail() {
   };
   console.log(product);
   return (
-    <div className="w-4/6 mx-auto mt-20">
-      <div className="px-3 py-5 rounded-md bg-white flex justify-center">
-        <img src={product?.image} alt="img" className="w-48 mr-20" />
-        <div className="w-1/2 text-left">
-          <h2 className="text-darkgreen text-lg font-bold mb-2">
-            {product?.title}
-          </h2>
-          <p className="text-darkgreen text-base font-bold mb-5">
-            ${product?.price}
-          </p>
-          <p>{product?.description}</p>
+    <motion.div
+      className=""
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+    >
+      <div className="w-4/6 mx-auto mt-20">
+        <div className="px-3 py-5 rounded-md bg-white flex justify-center">
+          <img src={product?.image} alt="img" className="w-48 mr-20" />
+          <div className="w-1/2 text-left">
+            <h2 className="text-darkgreen text-lg font-bold mb-2">
+              {product?.title}
+            </h2>
+            <p className="text-darkgreen text-base font-bold mb-5">
+              ${product?.price}
+            </p>
+            <p>{product?.description}</p>
 
-          {buttonState()}
+            {buttonState()}
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
