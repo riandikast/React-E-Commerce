@@ -2,12 +2,7 @@ import { useEffect, useState, React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import {
-  loginUser,
-  loginAdmin,
-  emailCheck,
-  reset,
-} from "../../store/login/LoginSlice";
+import { loginUser, loginAdmin, reset } from "../../store/login/LoginSlice";
 import { motion } from "framer-motion";
 
 function Login() {
@@ -21,28 +16,36 @@ function Login() {
       transition: { duration: 0.5, ...transition },
     },
   };
-  const [refresh, setRefresh] = useState("");
-  const { username, isLogin, isError, role } = useSelector(
+
+  const { isLogin, isError, emailUser, emailAdmin, username } = useSelector(
     (state) => state.login
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [role, setRole] = useState(null);
+  const [emailInput, setEmailInput] = useState(null);
   const [passwordInput, setPasswordInput] = useState();
-
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
-
-  const adminCheck = JSON.parse(localStorage.getItem("admin"));
+  
+  useEffect(() => {
+    if (emailInput === emailAdmin) {
+      setRole("admin");
+    } else if (emailInput === emailUser) {
+      setRole("user");
+    } else {
+      setRole(null);
+    }
+  }, [emailAdmin, emailInput, emailUser]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setRefresh("Refresh perubahan data");
     if (role === "user") {
       dispatch(loginUser({ username, password: passwordInput }));
     } else {
-      dispatch(loginAdmin({ passwordInput }));
+      dispatch(loginAdmin({emailInput, passwordInput }));
     }
   };
 
@@ -66,20 +69,6 @@ function Login() {
           text: "Email or Password are wrong",
         });
   }, [isLogin, isError]);
-
-  useEffect(() => {
-    if (adminCheck !== null) {
-      for (let i = 0; i < adminCheck.length; i++) {
-        if (adminCheck[i].admin === true) {
-          navigate("/");
-        }
-      }
-    }
-  }, [adminCheck]);
-
-  useEffect(() => {
-    setRefresh("");
-  }, [refresh]);
 
   return (
     <motion.div
@@ -105,7 +94,7 @@ function Login() {
                 name="email"
                 className="p-2 w-full rounded-lg"
                 placeholder="John@gmail.com / admin@bukapedia.com"
-                onChange={(e) => dispatch(emailCheck(e.target.value))}
+                onChange={(e) => setEmailInput(e.target.value)}
               ></input>
             </div>
             <div className="flex flex-col ">

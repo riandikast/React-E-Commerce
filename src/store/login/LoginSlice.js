@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import Swal from "sweetalert2";
 
 export const loginUser = createAsyncThunk("login/user", async (authInput) => {
   try {
@@ -10,11 +9,9 @@ export const loginUser = createAsyncThunk("login/user", async (authInput) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(authInput),
-    })
-      .then((data) => data.json())
-      .then((data) => localStorage.setItem("token", data.token));
+    }).then((data) => data.json())
+
   } catch (error) {
-    console.log(error);
     throw error;
   }
 });
@@ -36,11 +33,10 @@ const initialState = {
   isLogin: localStorage.getItem("token") ? true : false,
   emailUser: "John@gmail.com",
   emailAdmin: "admin@bukapedia.com",
-  username: null,
+  username: "johnd",
   token: localStorage.getItem("token"),
   loading: false,
   isError: false,
-  role: null,
   setAdmin: setAdmin(),
   admin: JSON.parse(localStorage.getItem("admin")) || [],
   value: "",
@@ -50,16 +46,6 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    emailCheck: (state, action) => {
-      if (state.emailUser === action.payload) {
-        state.username = "johnd";
-        state.role = "user";
-      } else if (state.emailAdmin === action.payload) {
-        state.role = "admin";
-      } else {
-        state.role = null;
-      }
-    },
     logoutUser: (state) => {
       localStorage.removeItem("token");
       localStorage.removeItem("email");
@@ -71,28 +57,17 @@ const loginSlice = createSlice({
     },
     loginAdmin: (state, action) => {
       state.admin.forEach((acc) => {
-        var BreakException = {};
-
         if (
-          state.role === "admin" &&
+          acc.email === action.payload.emailInput &&
           acc.password === action.payload.passwordInput
         ) {
           state.admin.map((admin) => {
             admin.admin = true;
           });
           localStorage.setItem("admin", JSON.stringify(state.admin));
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "Successfully logged in",
-          })
-          throw BreakException;
+          state.isLogin = true;
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Failed",
-            text: "Email or Password are wrong",
-          });
+          state.isError = true;
         }
       });
     },
@@ -107,7 +82,7 @@ const loginSlice = createSlice({
     [loginUser.fulfilled]: (state, action) => {
       state.loading = false;
       state.isLogin = true;
-      state.role = "user";
+      localStorage.setItem("token", action.payload.token)
       state.isError = false;
     },
     [loginUser.rejected]: (state) => {
