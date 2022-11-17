@@ -1,33 +1,24 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllProduct, productSelector } from "../store/products/ProductSlice";
 
-function CardProduct() {
-    const { product } = useSelector(productSelector);
-    const dispatch = useDispatch();
+function CardProduct({
+    id,
+    title,
+    price,
+    image,
+    category,
+  }) {
 
-    useEffect(() => {
-        dispatch(getAllProduct());
-    }, [])
-
-    // console.log(product);
     return (
-        <>
-            {product.length > 0 && product.map((item) => (
-                <div key={item.id} className="p-3 bg-white rounded-md">
-                    <Link to={`/detail/${item.id}`}>
-                        <img src={item?.image} alt="img" className="h-36 object-contain mb-5 mx-auto w-24" />
-                        <div className="text-left">
-                            <p className="text-darkgreen font-bold text-sm line-clamp-1">{item?.title}</p>
-                            <p className="text-green text-xs">{item?.category}</p>
-                            <p className="text-darkgreen font-bold mt-2">${item?.price}</p>
-                        </div>
-                    </Link>
-                    </div>
-
-            ))}
-        </>
+        <div key={id} className="p-3 bg-white rounded-md">
+            <Link to={`/detail/${id}`}>
+                <img src={image} alt="img" className="h-36 object-contain mb-5 mx-auto w-24" />
+                <div className="text-left">
+                    <p className="text-darkgreen font-bold text-sm line-clamp-1">{title}</p>
+                    <p className="text-green text-xs">{category}</p>
+                    <p className="text-darkgreen font-bold mt-2">${price}</p>
+                </div>
+            </Link>
+        </div>
     )
 }
 

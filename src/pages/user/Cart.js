@@ -143,7 +143,7 @@ function Cart() {
         );
       } else {
         return (
-          <div className="w-3/6 mx-auto mt-4  flex flex-row  ">
+          <div className="w-5/6 md:w-4/6 lg:w-3/6 mx-auto mt-4  flex flex-row  ">
             <div className="text-left mt-5 ml-2 text-xl ">
               {" "}
               Total = ${total.toFixed(2)}

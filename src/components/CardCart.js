@@ -12,7 +12,7 @@ function CardCart({
 {
   return (
     <>
-      <div className="w-3/6 mx-auto mt-6">
+      <div className="w-5/6 md:w-4/6 lg:w-3/6 mx-auto mt-6">
         <div className="px-3 py-5 rounded-md bg-white flex justify-center">
           <img src={image} alt="img" className="w-20 h-24 mr-20 mr-24 my-auto" />
           <div className="w-1/2 text-left">
@@ -42,7 +42,7 @@ function CardCart({
           
             </div>
 
-            <div className="flex space-x-20">
+            <div className="flex space-x-6 sm:space-x-20">
               <div className="flex space-x-3">
                 <div>
                   <button onClick={decreament} className="text-lg w-8 border-2 hover:bg-[#cf6137]">

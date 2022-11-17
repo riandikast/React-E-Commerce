@@ -15,9 +15,6 @@ function Rekap() {
     },
   };
   const navigate = useNavigate();
-  // let rekap = localStorage.getItem("rekap")
-  //   ? JSON.parse(localStorage.getItem("rekap"))
-  //   : "No Data";
 
   const rekap = JSON.parse(localStorage.getItem("rekap"));
 
@@ -39,7 +36,7 @@ function Rekap() {
     if (rekap !== null) {
       return (
         <>
-          <table className="table-auto border-2 border-darkgreen mx-auto">
+          <table className="table-auto border-2 border-darkgreen mx-auto bg-white">
             <thead className="border-2 border-darkgreen">
               <tr>
                 <th className="text-left px-6 py-4 mr-4">Product</th>
@@ -51,12 +48,12 @@ function Rekap() {
             <tbody>
               {rekap.map((item) => (
                 <tr key={item.title}>
-                  <td className="text-left py-4 px-6 font-semibold">
+                  <td className="text-left py-4 px-6 font-semibold text-darkgreen text-sm md:text-base line-clamp-2 sm:line-clamp-none">
                     {item.title}
                   </td>
-                  <td className="p-4 font-semibold">{item.price}</td>
-                  <td className="p-4 font-semibold">{item.quantity}</td>
-                  <td className="p-4 font-semibold">
+                  <td className="p-4 font-semibold text-darkgreen">{item.price}</td>
+                  <td className="p-4 font-semibold text-darkgreen">{item.quantity}</td>
+                  <td className="p-4 font-semibold text-darkgreen">
                     {(item.price * item.quantity).toFixed(2)}
                   </td>
                 </tr>
@@ -111,7 +108,7 @@ function Rekap() {
     exit="out"
     variants={pageVariants}
   >
-  <div className="mt-28">{listRecap()}</div>;
+  <div className="mt-28 w-5/6 mx-auto">{listRecap()}</div>;
   </motion.div>
     </>
 

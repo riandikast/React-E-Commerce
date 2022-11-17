@@ -48,7 +48,6 @@ const loginSlice = createSlice({
   reducers: {
     logoutUser: (state) => {
       localStorage.removeItem("token");
-      localStorage.removeItem("email");
       state.isLogin = false;
       state.admin.map((admin) => {
         admin.admin = false;

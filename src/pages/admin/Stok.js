@@ -64,7 +64,7 @@ function Stok() {
       >
       <div className="w-11/12 mx-auto">
         <div className="my-10" id="products">
-          <h2 className="mt-20 text-center text-2xl font-bold mb-5 text-darkgreen">
+          <h2 className="mt-20 text-center text-lg md:text-2xl font-bold mb-5 text-darkgreen">
             Product Stock
           </h2>
           <div>{listStock()}</div>

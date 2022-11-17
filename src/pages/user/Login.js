@@ -78,11 +78,9 @@ function Login() {
       exit="out"
       variants={pageVariants}
     >
-      <div className="grid grid-cols-2 bg-dark-plain">
-        <div className="h-[90vh] flex items-center justify-around relative w-[80%] mx-auto">
-          <img src="/banner.svg" alt="banner" className="h-5/6" />
-        </div>
-        <div className="h-[90vh] w-[80%] mx-auto flex flex-col justify-center items-center">
+      <div className="flex items-center justify-around bg-dark-plain h-[90vh]">
+        <img src="/banner.svg" alt="banner" className="w-1/2 h-5/6 mx-auto hidden md:block xl:w-2/5" />
+        <div className="w-8/12 md:w-2/5 mx-auto flex flex-col justify-center items-center">
           <h3 className="text-darkgreen text-2xl font-semibold">Login</h3>
           <form className="w-full">
             <div className="flex flex-col text-left my-5">

@@ -15,10 +15,9 @@ function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [path, setPath] = useState(null);
-  const [showNav, setShowNav] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [active, setActive] = useAtom(navbarState);
-  const { isLogin } = useSelector((state) => state.login);
+  const { token } = useSelector((state) => state.login);
   const adminCheck = JSON.parse(localStorage.getItem("admin"));
   const navigate = useNavigate();
   const scrollToTop = () => {
@@ -64,6 +63,7 @@ function Navbar() {
       }
     });
   };
+  console.log(token)
 
   useEffect(() => {
     if (adminCheck !== null) {
@@ -80,7 +80,7 @@ function Navbar() {
   return (
     <>
       <div className="flex justify-around items-center bg-dark-plain py-3">
-        <img src="/logo.svg" alt="logo" width="90" />
+        <h1 className="text-darkgreen font-bold text-xl">Bukapedia</h1>
         {!isAdmin ? (
           <div className="flex">
             <NavLink
@@ -88,8 +88,8 @@ function Navbar() {
               to={"/"}
               className={
                 path === "/" && active === "active"
-                  ? "text-xs md:text-base mr-3 border-b-2 border-black  "
-                  : "text-xs md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
+                  : "text-sm md:text-base mr-3"
               }
             >
               {path === "/" ? (
@@ -103,8 +103,8 @@ function Navbar() {
 
             <NavLink className={
                 path === "/" && active === "productActive"
-                  ? "text-xs md:text-base mr-3 border-b-2 border-black  "
-                  : "text-xs md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
+                  : "text-sm md:text-base mr-3"
               }>
               {path === "/" ? (
                 <ScrollLink
@@ -128,8 +128,8 @@ function Navbar() {
               to={"/"}
               className={
                 path === "/"
-                  ? "text-xs md:text-base mr-3 border-b-2 border-black  "
-                  : "text-xs md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
+                  : "text-sm md:text-base mr-3"
               }
             >
               Home
@@ -139,8 +139,8 @@ function Navbar() {
               to={"/rekap"}
               className={
                 path === "/rekap"
-                  ? "text-xs md:text-base mr-3 border-b-2 border-black  "
-                  : "text-xs md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
+                  : "text-sm md:text-base mr-3"
               }
             >
               Rekap Penjualan
@@ -166,7 +166,7 @@ function Navbar() {
             </svg>
           )}
 
-          {isLogin && (
+          {token !== null  && (
             <Link to="/cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +184,7 @@ function Navbar() {
               </svg>
             </Link>
           )}
-          {isLogin || isAdmin ? (
+          {token !== null || isAdmin ? (
             <>
               <button
                 className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md ml-3"

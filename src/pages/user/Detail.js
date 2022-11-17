@@ -8,6 +8,7 @@ import {
 import { addProduct, checkData } from "../../store/products/CartSlice";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 function Detail() {
   const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
   const pageVariants = {
@@ -106,12 +107,21 @@ function Detail() {
 
   const handleCart = (product) => {
     if (token === null) {
-      return navigate("/login");
+        Swal.fire({
+          title: "",
+          text: "Please Login to access this page",
+          icon: "warning",
+          confirmButtonText: "Oke",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
     } else {
       return handleSave(product);
     }
   };
-  console.log(product);
+
   return (
     <motion.div
       className=""
@@ -120,10 +130,10 @@ function Detail() {
       exit="out"
       variants={pageVariants}
     >
-      <div className="w-4/6 mx-auto mt-20">
-        <div className="px-3 py-5 rounded-md bg-white flex justify-center">
-          <img src={product?.image} alt="img" className="w-48 mr-20" />
-          <div className="w-1/2 text-left">
+      <div className="w-4/5 sm:w-5/6 mx-auto mt-20">
+        <div className="px-3 py-5 rounded-md bg-white flex flex-col sm:flex-row justify-center items-center">
+          <img src={product?.image} alt="img" className="w-48 mr-10 lg:mr-20 mb-8 sm:mb-0 object-contain" />
+          <div className="w-11/12 sm:w-1/2 text-left">
             <h2 className="text-darkgreen text-lg font-bold mb-2">
               {product?.title}
             </h2>
