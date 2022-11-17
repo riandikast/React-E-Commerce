@@ -80,7 +80,6 @@ export const saveSlice = createSlice({
     decrementCart: (state, action) => {
       state.saved.forEach((saved) => {
         var BreakException = {};
-        console.log("rot", action.payload.title);
         if (saved.title === action.payload.title) {
           if (saved.quantity > 1) {
             saved.quantity = saved.quantity - 1;

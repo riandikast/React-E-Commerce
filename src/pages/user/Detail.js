@@ -1,4 +1,4 @@
-import { useEffect, useState, React, useRef } from "react";
+import { useEffect, useState, React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -31,7 +31,6 @@ function Detail() {
     const data = JSON.parse(localStorage.getItem("product"));
     let findProduct = data.find((data) => product.id === data.id);
     if (findProduct !== null && findProduct !== undefined) {
-      console.log("wer", findProduct.stock);
       if (findProduct.stock > 0) {
         return (
           <button

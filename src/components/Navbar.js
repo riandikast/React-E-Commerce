@@ -63,7 +63,6 @@ function Navbar() {
       }
     });
   };
-  console.log(token)
 
   useEffect(() => {
     if (adminCheck !== null) {

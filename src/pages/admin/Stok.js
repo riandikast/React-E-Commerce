@@ -1,6 +1,6 @@
 import CardStock from "../../components/CardStock";
-import { useEffect, useState, React } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, React } from "react";
+import { useDispatch } from "react-redux";
 import { updateStock } from "../../store/products/ProductSlice";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
@@ -32,7 +32,6 @@ function Stok() {
 
   const listStock = () => {
     const data = JSON.parse(localStorage.getItem("product"));
-    console.log("pol", stockInput);
 
     if (data !== null) {
       if (data.length !== 0) {

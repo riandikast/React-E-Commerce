@@ -85,33 +85,34 @@ function Rekap() {
     isAdmin?.map((admin) => {
       if (admin.admin === true) return true;
       else {
-        Swal.fire({
-          title: "",
-          text: "Please Login to access this page",
-          icon: "warning",
-          confirmButtonText: "Oke",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
-        });
+        return (
+          Swal.fire({
+            title: "",
+            text: "Please Login to access this page",
+            icon: "warning",
+            confirmButtonText: "Oke",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/login");
+            }
+          })
+        )
       }
     });
-  }, []);
+  }, [isAdmin]);
 
   return (
     <>
-        <motion.div
-    className=""
-    initial="initial"
-    animate="in"
-    exit="out"
-    variants={pageVariants}
-  >
-  <div className="mt-28 w-5/6 mx-auto">{listRecap()}</div>;
-  </motion.div>
+      <motion.div
+        className=""
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+      >
+        <div className="mt-28 w-5/6 mx-auto">{listRecap()}</div>;
+      </motion.div>
     </>
-
   )
 
 }

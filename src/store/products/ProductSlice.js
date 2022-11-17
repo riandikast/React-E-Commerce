@@ -11,35 +11,29 @@ export const getAllProduct = createAsyncThunk("product/all", async () => {
   }
 });
 
-export const getDetailProduct = createAsyncThunk(
-  "product/detail",
-  async ({ id }) => {
-    try {
-      const response = await axios.get(
-        `https://fakestoreapi.com/products/${id}`
-      );
-      console.log("Detail Product", response);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+export const getDetailProduct = createAsyncThunk("product/detail", async ({ id }) => {
+  try {
+    const response = await axios.get(
+      `https://fakestoreapi.com/products/${id}`
+    );
+    console.log("Detail Product", response);
+    return response.data;
+  } catch (error) {
+    throw error;
   }
-);
+});
 
-export const getCategory = createAsyncThunk(
-  "product/category",
-  async ({ category }) => {
-    try {
-      const response = await axios.get(
-        `https://fakestoreapi.com/products/category/${category}`
-      );
-      console.log("All Product", response);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+export const getCategory = createAsyncThunk("product/category", async ({ category }) => {
+  try {
+    const response = await axios.get(
+      `https://fakestoreapi.com/products/category/${category}`
+    );
+    console.log("All Product", response);
+    return response.data;
+  } catch (error) {
+    throw error;
   }
-);
+});
 
 const setProduct = () => {
     
@@ -67,7 +61,6 @@ const productSlice = createSlice({
       state.stockProduct.forEach((product) => {
     
         if (product.title === action.payload.title) {
-          console.log("zxc", action.payload);
           if (product.stock > 0) {
             product.stock = product.stock - action.payload.quantity;
             localStorage.setItem("product", JSON.stringify(state.stockProduct));
@@ -83,7 +76,6 @@ const productSlice = createSlice({
     updateStock: (state, action) => {
       state.stockProduct.forEach((product) => {
         if (product.id === action.payload.id) {
-          console.log("opo", action.payload.id);
           product.stock = action.payload.stock;
           localStorage.setItem("product", JSON.stringify(state.stockProduct));
         }
@@ -100,7 +92,6 @@ const productSlice = createSlice({
       state.product = action.payload;
       var saveToLocal = true;
       state.product.map((product) => {
-        console.log("cds", product.title);
         let stockProduct = {
           title: product.title,
           image: product.image,
@@ -128,7 +119,6 @@ const productSlice = createSlice({
           );
   
         }
-        console.log("jkl", state.stockProduct.length)
       });
     },
     [getAllProduct.rejected]: (state) => {
@@ -144,21 +134,6 @@ const productSlice = createSlice({
     [getDetailProduct.rejected]: (state) => {
       state.isError = true;
     },
-    // [getCategory.pending]: (state) => {
-    //     state.loading = true;
-    //     state.product = null;
-    //     state.isError = null;
-    // },
-    // [getCategory.fulfilled]: (state, {payload}) => {
-    //     state.loading = false;
-    //     state.product = payload;
-    //     state.isError = null;
-    // },
-    // [getCategory.rejected]: (state) => {
-    //     state.loading = false;
-    //     state.product = null;
-    //     state.isError = true;
-    // },
   },
 });
 

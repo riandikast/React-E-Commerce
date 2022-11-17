@@ -6,11 +6,10 @@ import {
   outStock,
   readyStock,
   clearCart,
-  createRecap,
 } from "../../store/products/CartSlice";
 import { checkoutProduct } from "../../store/products/ProductSlice";
 import { useDispatch } from "react-redux";
-import { useEffect, useState, React, useRef } from "react";
+import { useEffect, useState, React } from "react";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 function Cart() {
@@ -121,7 +120,6 @@ function Cart() {
         count += total;
       }
       setTotal(count);
-      console.log("ert", count);
     }
   };
 
@@ -209,7 +207,6 @@ function Cart() {
   const buttonState = () => {
     let result = "";
     for (let i = 0; i < cart.length; i++) {
-      console.log("azx", cart[i].status);
       if (cart[i].status === "Not Available") {
         result = "true";
         break;
