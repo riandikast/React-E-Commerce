@@ -110,7 +110,7 @@ function Rekap() {
         exit="out"
         variants={pageVariants}
       >
-        <div className="mt-28 w-11/12 sm:w-5/6 mx-auto">{listRecap()}</div>;
+        <div className="mt-28 w-11/12 sm:w-5/6 mx-auto">{listRecap()}</div>
       </motion.div>
     </>
   )
