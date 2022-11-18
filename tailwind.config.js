@@ -16,6 +16,12 @@ module.exports = {
         'darkgreen': '#07484A',
         'green': '#70908B',
       },
+      screens: {
+        'm685': {'min': '0px', 'max': '685px'},
+        'min685': {'min': '685px'},
+        'min540': {'min': '541px'},
+        'max540': {'max': '540px'},
+      },
     },
   },
   plugins: [
