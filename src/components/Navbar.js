@@ -8,9 +8,10 @@ import { Link as ScrollLink, animateScroll as scroll, scroller } from "react-scr
 import { useAtom, atom } from 'jotai'
 
 export const navbarState = atom("active")
+
 function Navbar() {
 
-
+  const [showNav, setShowNav] = useState(false);
   const [refresh, setRefresh] = useState("");
   const location = useLocation();
   const dispatch = useDispatch();
@@ -20,23 +21,20 @@ function Navbar() {
   const { token } = useSelector((state) => state.login);
   const adminCheck = JSON.parse(localStorage.getItem("admin"));
   const navigate = useNavigate();
+
   const scrollToTop = () => {
     setActive("active");
     scroll.scrollToTop();
-   
   };
   const scrollToProduct = () => {
     setActive("productActive");
-   
   };
+
   useEffect(() => {
     setPath(location.pathname);
     if (active==="productActive"){
       setTimeout(()=>{scroller.scrollTo('productElement',{smooth:true, spy:true, duration:700})} , 1000)
-    }
- 
-    
-    
+    }   
   }, [location]);
 
   useEffect(() => {
@@ -76,19 +74,19 @@ function Navbar() {
     }
   }, [adminCheck || isAdmin]);
 
-  return (
-    <>
-      <div className="flex justify-around items-center bg-dark-plain py-3">
-        <h1 className="text-darkgreen font-bold text-xl">Bukapedia</h1>
+  const linkNavbar = () => {
+    return (
+      <>
         {!isAdmin ? (
-          <div className="flex">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center">
             <NavLink
+              onClick={() => setShowNav(false)}
               exact="true"
               to={"/"}
               className={
                 path === "/" && active === "active"
-                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
-                  : "text-sm md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-white sm:border-black mb-3 text-white sm:mb-0 sm:text-black"
+                  : "text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black"
               }
             >
               {path === "/" ? (
@@ -100,10 +98,12 @@ function Navbar() {
               )}
             </NavLink>
 
-            <NavLink className={
+            <NavLink 
+              onClick={() => setShowNav(false)}
+              className={
                 path === "/" && active === "productActive"
-                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
-                  : "text-sm md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3  border-b-2 border-white sm:border-black mb-3 text-white sm:mb-0 sm:text-black  "
+                  : "text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black"
               }>
               {path === "/" ? (
                 <ScrollLink
@@ -121,14 +121,14 @@ function Navbar() {
             </NavLink>
           </div>
         ) : (
-          <div className="flex">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center">
             <NavLink
               exact="true"
               to={"/"}
               className={
                 path === "/"
-                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
-                  : "text-sm md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-white sm:border-black mb-3 text-white sm:mb-0 sm:text-black  "
+                  : "text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black"
               }
             >
               Home
@@ -136,10 +136,11 @@ function Navbar() {
 
             <NavLink
               to={"/rekap"}
+              onClick={() => setShowNav(false)}
               className={
                 path === "/rekap"
-                  ? "text-sm md:text-base mr-3 border-b-2 border-black  "
-                  : "text-sm md:text-base mr-3"
+                  ? "text-sm md:text-base mr-3 border-b-2 border-white sm:border-black mb-3 text-white sm:mb-0 sm:text-black  "
+                  : "text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black"
               }
             >
               Rekap Penjualan
@@ -147,33 +148,26 @@ function Navbar() {
           </div>
         )}
 
-        <div className="flex items-center">
-          {!isAdmin && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 mr-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          )}
-
+        <div className="flex flex-col sm:flex-row items-start sm:items-center">
           {token !== null  && (
             <Link to="/cart">
+              <p 
+                onClick={() => setShowNav(false)}
+                className={
+                  path === "/cart"
+                    ? "text-sm md:text-base mr-3 border-b-2 border-white sm:border-black mb-3 text-white sm:mb-0 sm:text-black block sm:hidden font-playfair"
+                    : "text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black block sm:hidden font-playfair"
+                }
+              >
+                Cart
+              </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6 mr-4"
+                className="w-6 h-6 mr-4 hidden sm:block"
               >
                 <path
                   strokeLinecap="round"
@@ -186,20 +180,66 @@ function Navbar() {
           {token !== null || isAdmin ? (
             <>
               <button
-                className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md ml-3"
+                className="bg-[#cf6137] py-1 px-4 text-white font-base rounded-md mt-5 sm:mt-0 ml-0 sm:ml-3 w-full hidden sm:block"
                 onClick={handleLogout}
               >
                 Logout
               </button>
+              <p 
+                onClick={handleLogout}
+                className="text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black block sm:hidden font-playfair font-semibold"
+              >
+                Logout
+              </p>
             </>
           ) : (
             <Link to="/login">
-              <button className="bg-green py-1 px-4 text-white font-base rounded-md ml-3">
+              <button className="bg-green py-1 px-4 text-white font-base rounded-md ml-3 hidden sm:block">
                 Login
               </button>
+              <p
+                onClick={() => setShowNav(false)}
+                className="text-sm md:text-base mr-3 mb-3 text-white sm:mb-0 sm:text-black block sm:hidden font-playfair font-semibold"
+              >
+                Login
+              </p>
             </Link>
           )}
         </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <div className="flex justify-unset sm:justify-around items-center bg-dark-plain py-3 pl-5 sm:pl-0">
+        {/* button menu mobile */}
+        <div className="block sm:hidden">
+          <button onClick={() => setShowNav(true)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#07484A" className="w-6 h-6 mr-5 mt-1">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+        {/* end button menu */}
+        <h1 className="text-darkgreen font-bold text-xl">Bukapedia</h1>
+
+        {/* laptop nav */}
+        <div className="hidden sm:flex w-1/2 justify-between">
+          {linkNavbar()}
+        </div>
+
+        {/* mobile nav */}
+        {showNav && (
+          <div className="fixed top-4 left-2 w-full max-w-[50%] bg-green rounded-lg shadow-lg p-6 block sm:hidden">
+            <button className="absolute top-5 right-5" onClick={() => setShowNav(false)}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            {linkNavbar()}
+          </div>
+        )}
       </div>
     </>
   );

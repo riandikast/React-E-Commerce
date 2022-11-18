@@ -141,8 +141,8 @@ function Cart() {
         );
       } else {
         return (
-          <div className="w-5/6 md:w-4/6 lg:w-3/6 mx-auto mt-4  flex flex-row  ">
-            <div className="text-left mt-5 ml-2 text-xl ">
+          <div className="w-5/6 md:w-4/6 lg:w-3/6 mx-auto mt-4  flex flex-row items-center">
+            <div className="text-left mt-5 ml-2 text-sm sm:text-xl ">
               {" "}
               Total = ${total.toFixed(2)}
             </div>
@@ -150,7 +150,7 @@ function Cart() {
               <button
                 disabled={buttonState()}
                 onClick={() => handleCheckout()}
-                className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md "
+                className="disabled:opacity-30 bg-[#cf6137] py-1 px-4 text-white font-base rounded-md text-sm sm:text-medium"
               >
                 Checkout
               </button>
@@ -251,7 +251,7 @@ function Cart() {
         <div className="">
           <div className="w-11/12 mx-auto ">
             <div className="mt-20">
-              <h2 className="text-center text-2xl font-bold  text-darkgreen">
+              <h2 className="text-center text-xl md:text-2xl font-bold  text-darkgreen">
                 Cart
               </h2>
 
