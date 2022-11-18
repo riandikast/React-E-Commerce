@@ -39,30 +39,30 @@ function Rekap() {
           <table className="table-auto border-2 border-darkgreen mx-auto bg-white">
             <thead className="border-2 border-darkgreen">
               <tr>
-                <th className="text-left px-6 py-4 mr-4">Product</th>
-                <th className="px-8">Price</th>
-                <th className="px-6">Sold</th>
-                <th className="px-6">Income</th>
+                <th className="text-left px-3 py-2 sm:px-6 sm:py-4 mr-4 text-xs sm:text-base">Product</th>
+                <th className="px-2 sm:px-8 text-xs sm:text-base">Price</th>
+                <th className="px-2 sm:px-6 text-xs sm:text-base">Sold</th>
+                <th className="px-2 sm:px-6 text-xs sm:text-base">Income</th>
               </tr>
             </thead>
             <tbody>
               {rekap.map((item) => (
                 <tr key={item.title}>
-                  <td className="text-left py-4 px-6 font-semibold text-darkgreen text-sm md:text-base line-clamp-2 sm:line-clamp-none">
+                  <td className="text-left px-2 pt-2 sm:px-6 sm:pt-4 mb-3 font-semibold text-darkgreen text-xs sm:text-base line-clamp-2 sm:line-clamp-3">
                     {item.title}
                   </td>
-                  <td className="p-4 font-semibold text-darkgreen">{item.price}</td>
-                  <td className="p-4 font-semibold text-darkgreen">{item.quantity}</td>
-                  <td className="p-4 font-semibold text-darkgreen">
-                    {(item.price * item.quantity).toFixed(2)}
+                  <td className="p-0 sm:p-4 font-semibold text-darkgreen text-xs sm:text-base">${item.price}</td>
+                  <td className="p-0 sm:p-4 font-semibold text-darkgreen text-xs sm:text-base">{item.quantity}</td>
+                  <td className="p-0 sm:p-4 font-semibold text-darkgreen text-xs sm:text-base">
+                    ${(item.price * item.quantity).toFixed(2)}
                   </td>
                 </tr>
               ))}
               <tr className="border-2 border-darkgreen">
-                <td className="font-bold py-2 text-right">Total Pendapatan</td>
+                <td className="font-bold py-2 text-right text-xs sm:text-base">Total Pendapatan</td>
                 <td></td>
                 <td></td>
-                <td className="font-bold py-2">{totalPrice()}</td>
+                <td className="font-bold py-2 text-xs sm:text-base">${totalPrice()}</td>
               </tr>
             </tbody>
           </table>
@@ -110,7 +110,7 @@ function Rekap() {
         exit="out"
         variants={pageVariants}
       >
-        <div className="mt-28 w-5/6 mx-auto">{listRecap()}</div>;
+        <div className="mt-28 w-11/12 sm:w-5/6 mx-auto">{listRecap()}</div>;
       </motion.div>
     </>
   )

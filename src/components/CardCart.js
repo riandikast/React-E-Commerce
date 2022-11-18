@@ -17,7 +17,7 @@ function CardCart({
           <img src={image} alt="img" className="w-20 h-24 mr-10 sm:mr-20 md:mr-24 my-auto" />
           <div className="w-1/2 text-left relative">
             <div className="flex flex-col sm:flex-row">
-              <h2 className="text-darkgreen text-base font-bold my-3 sm:mt-0 sm:mb-8 mr-0 sm:mr-8 line-clamp-2 order-last sm:order-none">{title}</h2>
+              <h2 className="text-darkgreen text-sm sm:text-base font-bold my-3 sm:mt-0 sm:mb-8 mr-0 sm:mr-8 line-clamp-2 order-last sm:order-none">{title}</h2>
               <div className="ml-auto mt-1">
               <button
                 onClick={deleteClick}
