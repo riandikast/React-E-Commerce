@@ -47,6 +47,7 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
+      state.token = null
       localStorage.removeItem("token");
       state.isLogin = false;
       state.admin.map((admin) => {
@@ -82,6 +83,7 @@ const loginSlice = createSlice({
       state.loading = false;
       state.isLogin = true;
       localStorage.setItem("token", action.payload.token)
+      state.token = action.payload.token
       state.isError = false;
     },
     [loginUser.rejected]: (state) => {
