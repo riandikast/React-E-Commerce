@@ -99,25 +99,25 @@ function CardStock({
               alt="img"
               className="w-20 h-24 mx-auto object-contain"
             />
-            <div className="w-6/6 text-center ">
+            <div className="w-6/6 text-center  ">
               <div className="flex  mx-auto  ">
-                <h2 className="text-darkgreen text-base  mx-auto font-bold mb-4 line-clamp-2">
+                <h2 className="text-darkgreen text-base  mx-auto font-bold mb-4 line-clamp-2 max320:line-clamp-1  max320:text-sm">
                   {title}
                 </h2>
               </div>
               <div className="flex space-x-20">
                 <div className="flex flex-col space-x-3">
-                  <div className="text-darkgreen text-xs font-bold mb-5 text-left mx-auto line-clamp-3">
+                  <div className="text-darkgreen text-xs font-bold mb-5 text-left mx-auto line-clamp-3 max320:mr-6  max320:line-clamp-2 break-all">
                     {desc}
                   </div>
                   <div className="max540:w-6/6 min540:w-6/6 ">
                   <form onSubmit={updateClick} className=" ">
                     <div className="flex flex-col min540:flex-row mx-auto text-left ">
-                      <div className="flex flex-row w-20 ml-auto mr-10 min540:mr-4 max540:mb-4">
-                      <label className="font-medium text-base ">Stock</label>
+                      <div className="flex flex-row w-20 ml-auto mr-10 min540:mr-4 max540:mb-4 ">
+                      <label className="font-medium text-base max320:text-sm ">Stock</label>
                       <input
                         type="number"
-                        className="ml-4 px-2  text-base font-semibold rounded-lg w-16 border-black border-2 "
+                        className="ml-4 max320:ml-1 px-2  text-base max320:text-sm  font-semibold rounded-lg w-16 max320:w-12 border-black border-2 "
                         value={getFirstStock()}
                         min="0"
                         pattern="[0-9]"
@@ -126,7 +126,7 @@ function CardStock({
                       </div>
 
                       <button
-                        className="ml-8  bg-green  max540:w-20 max540:h-6 max540:text-xs max540:ml-auto text-white font-medium  text-sm rounded-md  px-2 "
+                        className="ml-8 max320:ml-6 max320:w-16 bg-green max320:text-sm  max540:w-20 max540:h-6 max540:text-xs max540:ml-auto text-white font-medium  text-sm rounded-md  px-2 "
                         type="submit"
                       >
                         Update
