@@ -1,3 +1,9 @@
+# Demo
+https://react-e-commerce-seven.vercel.app/
+
+# Preview
+<img width="932" alt="image" src="https://user-images.githubusercontent.com/84719581/202739664-245ee85a-cbb6-4e2f-b1fe-4cbb02445d6f.png">
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
