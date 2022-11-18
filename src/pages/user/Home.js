@@ -26,7 +26,7 @@ function Home() {
   }, [])
 
   const listProduct = () => {
-    return product?.map((item) => (
+    return product.length > 0 && product.map((item) => (
       <CardProduct
         id = {item.id}
         title={item.title}
